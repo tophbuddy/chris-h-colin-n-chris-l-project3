@@ -1,15 +1,45 @@
 {
-  "name": "cs5610_mod3_spr22",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "name": "fullstack-app-spr22",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
+    "axios": "^0.26.1",
     "cors": "^2.8.5",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-scripts": "5.0.0",
+    "web-vitals": "^2.1.4",
+    
     "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "concurrently": "^7.1.0",
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "devstart": "concurrently \"nodemon ./server.js\" \"react-scripts start\"",
+    "start": "node ./server.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://localhost:8000",
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

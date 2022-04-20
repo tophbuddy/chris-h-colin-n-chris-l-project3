@@ -6,7 +6,7 @@ const HomeSchema = new Schema({
     builtDate: {
         type: Date,
         default: Date.now,
-    }
+    },
 }, {
     collection: 'home',
 })

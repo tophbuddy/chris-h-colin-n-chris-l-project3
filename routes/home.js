@@ -1,5 +1,7 @@
 const express = require('express');
 
+const HomeModel = require('./model/home.model');
+
 const router = express.Router();
 
 const homes = [
@@ -22,20 +24,29 @@ const homes = [
 
 router.get('/', function(request, response) {
 
-    const minRoomCount = request.query.minRoomCount;
-    if (minRoomCount) {
-        const roomCountHomes = [];
-        for (let i = 0; i < homes.length; i++) {
-            if (homes[i].roomCount >= parseInt(minRoomCount)) {
-                roomCountHomes.push(homes[i]);
-            } 
-        }
-        
-        response.status(200).send(roomCountHomes);
+    return HomeModel.getAllHomes()
+        .then(allHomes => {
+            response.status(200).send(allHomes)
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
 
-    } else {
-        response.status(200).send(homes);
-    }
+
+    // const minRoomCount = request.query.minRoomCount;
+    // if (minRoomCount) {
+    //     const roomCountHomes = [];
+    //     for (let i = 0; i < homes.length; i++) {
+    //         if (homes[i].roomCount >= parseInt(minRoomCount)) {
+    //             roomCountHomes.push(homes[i]);
+    //         } 
+    //     }
+        
+    //     response.status(200).send(roomCountHomes);
+
+    // } else {
+    //     response.status(200).send(homes);
+    // }
     
 
 
@@ -44,31 +55,46 @@ router.get('/', function(request, response) {
 
 router.get('/:homeId', function(request, response) {
 
-    const homeId = request.params.homeId;
+    const homeId = request.params.homeId
 
-    for(let i = 0; i < homes.length; i++) {
-        if (homes[i].id === parseInt(homeId)) {
-            response.status(200).send(homes[i]);
-            return;
-        }
-    }
+    return HomeModel.getHomeById(homeId)
+        .then(home => {
+                response.status(200).send(home);
+        })
+        .catch(error => {
+            response.status(400).send(error);
+        })
 
-    return response.status(404).send('No home matches ID = ' + homeId);
+    // const homeId = request.params.homeId;
+
+    // for(let i = 0; i < homes.length; i++) {
+    //     if (homes[i].id === parseInt(homeId)) {
+    //         response.status(200).send(homes[i]);
+    //         return;
+    //     }
+    // }
+
+    // return response.status(404).send('No home matches ID = ' + homeId);
 })
 
 router.post('/', function(request, response) {
     const homeAddress = request.body.address;
 
-    const newestHome = homes[homes.length - 1];
-    const nextHomeId = newestHome.id + 1;
+    if (!homeAddress) {
+        response.status(401).send("Missing home address argument")
+    }
 
-    homes.push({
-      address: homeAddress, 
-      id: nextHomeId,  
-    })
+    const home = {
+        address: homeAddress, 
+    }
 
-    response.status(200).send(homes[homes.length - 1]);
-
+    return HomeModel.createHome(home)
+        .then(dbResponse => {
+            response.status(200).send(dbResponse);
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
 });
 
 module.exports = router;

@@ -46,7 +46,7 @@ function App() {
     <input value={newHomeInput} onChange={e => setNewHomeInput(e.target.value)}>
     
     </input>
-    <button onClick={createNewHome}>Add new home</button>
+    <button onClick={createNewHome}>Add new home :)</button>
   </div>)
 
   // const [pokemons, setPokemons] = useState([]);

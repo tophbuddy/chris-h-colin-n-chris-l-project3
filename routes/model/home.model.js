@@ -9,13 +9,15 @@ function createHome(home) {
 }
 
 function getAllHomes() {
-
     return HomeModel.find().exec();
-
 }
 
 function getHomeById(id) {
-
     return HomeModel.findById(id).exec();
+}
 
+module.exports = {
+    createHome,
+    getAllHomes,
+    getHomeById,
 }

@@ -35,7 +35,8 @@ function App() {
   const homeComponent = [];
   for(let home of homes) {
     homeComponent.push(<div>
-      <h1>{home.address}</h1>
+      <a href={'/home/' + home._id}><h1>{home.address}</h1></a>
+
       <h5>Room Count: {home.roomCount}</h5>
       </div>)
 

@@ -1,4 +1,5 @@
 const express = require('express');
+const auth_middleware = require('./middleware/auth_middleware');
 
 const HomeModel = require('./model/home.model');
 
@@ -22,9 +23,11 @@ const homes = [
     }
 ]
 
-router.get('/', function(request, response) {
+router.get('/', auth_middleware, function(request, response) {
 
-    return HomeModel.getAllHomes()
+    const username = request.username;
+
+    return HomeModel.getHomesByUsername(username)
         .then(allHomes => {
             response.status(200).send(allHomes)
         })
@@ -77,14 +80,16 @@ router.get('/:homeId', function(request, response) {
     // return response.status(404).send('No home matches ID = ' + homeId);
 })
 
-router.post('/', function(request, response) {
+router.post('/', auth_middleware, function(request, response) {
     const homeAddress = request.body.address;
+    const username = request.username;
 
     if (!homeAddress) {
         response.status(401).send("Missing home address argument")
     }
 
     const home = {
+        owner: username,
         address: homeAddress, 
     }
 

@@ -8,6 +8,12 @@ function createHome(home) {
     return HomeModel.create(home);
 }
 
+function getHomesByUsername(username) {
+    return HomeModel.find({
+        owner: username
+    }).exec();
+}
+
 function getAllHomes() {
     return HomeModel.find().exec();
 }
@@ -20,4 +26,5 @@ module.exports = {
     createHome,
     getAllHomes,
     getHomeById,
+    getHomesByUsername,
 }

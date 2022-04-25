@@ -1,6 +1,6 @@
 const Schema = require('mongoose').Schema;
 
-const HomeSchema = new Schema({
+const MovieSchema = new Schema({
     address: String,
     roomCount: Number,
     owner: String,
@@ -9,7 +9,7 @@ const HomeSchema = new Schema({
         default: Date.now,
     },
 }, {
-    collection: 'home',
+    collection: 'movie',
 })
 
-module.exports = HomeSchema;
+module.exports = MovieSchema;

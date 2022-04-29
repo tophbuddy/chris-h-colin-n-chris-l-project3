@@ -1,30 +1,30 @@
 const mongoose = require('mongoose');
 
-const HomeSchema = require('../schema/home.schema');
+const MovieSchema = require('../schema/movie.schema');
 
-const HomeModel = mongoose.model("Home", HomeSchema);
+const MovieModel = mongoose.model("Movie", MovieSchema);
 
-function createHome(home) {
-    return HomeModel.create(home);
+function createMovie(movie) {
+    return MovieModel.create(movie);
 }
 
-function getHomesByUsername(username) {
-    return HomeModel.find({
+function getMoviesByUsername(username) {
+    return MovieModel.find({
         owner: username
     }).exec();
 }
 
-function getAllHomes() {
-    return HomeModel.find().exec();
+function getAllMovies() {
+    return MovieModel.find().exec();
 }
 
-function getHomeById(id) {
-    return HomeModel.findById(id).exec();
+function getMovieById(id) {
+    return MovieModel.findById(id).exec();
 }
 
 module.exports = {
-    createHome,
-    getAllHomes,
-    getHomeById,
-    getHomesByUsername,
+    createMovie,
+    getAllMovies,
+    getMovieById,
+    getMoviesByUsername,
 }

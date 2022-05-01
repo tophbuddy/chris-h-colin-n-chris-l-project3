@@ -8,11 +8,16 @@ function createUser(user) {
     return UserModel.create(user);
 }
 
+function updateUser(userId,user) {
+    return userModel.update({_id:userId},{$set:user});
+}
+
 function getUserByUserName(username) {
     return UserModel.findOne({username: username}).exec();
 }
 
 module.exports = {
     createUser,
+    updateUser,
     getUserByUserName,
 }

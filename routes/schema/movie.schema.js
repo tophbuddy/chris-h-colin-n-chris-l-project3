@@ -8,6 +8,12 @@ const MovieSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    reviews: [{
+        review: {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    }]
 }, {
     collection: 'movie',
 })

@@ -6,7 +6,9 @@ const UserSchema = new Schema({
         unique: true,
     },
     password: String,
-    reviews: [String]
+    reviews: [{
+        
+    }]
 }, {
     collection: 'users',
 })

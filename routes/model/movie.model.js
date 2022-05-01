@@ -8,9 +8,9 @@ function createMovie(movie) {
     return MovieModel.create(movie);
 }
 
-function getMoviesByUsername(username) {
+function getMoviesByDirector(director) {
     return MovieModel.find({
-        owner: username
+        director: director
     }).exec();
 }
 
@@ -26,5 +26,5 @@ module.exports = {
     createMovie,
     getAllMovies,
     getMovieById,
-    getMoviesByUsername,
+    getMoviesByDirector,
 }

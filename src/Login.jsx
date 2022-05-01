@@ -9,7 +9,7 @@ export default function Login(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    function createNewUser() {
+    function login() {
         Axios.post('/api/user/authenticate', {username, password})
             .then(response => {
                 navigate('/');
@@ -27,8 +27,8 @@ export default function Login(props) {
                 Password
             </h5>
             <input type='password' value={password} onChange={e => setPassword(e.target.value)} />
-            <button onClick={createNewUser}>
-                Create User
+            <button onClick={login}>
+                Login
             </button>
         </div>
 

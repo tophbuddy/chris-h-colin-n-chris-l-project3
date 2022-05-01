@@ -62,7 +62,8 @@ router.post('/', function(request, response) {
 
     const user = {
         username,
-        password 
+        password,
+        reviews: []
     }
 
     return UserModel.createUser(user)

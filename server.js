@@ -5,13 +5,12 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
-//const pokemonRoute = require('./routes/pokemon');
 const homeRouter = require('./routes/home');
 const userRouter = require('./routes/user');
 
-const mongooseEnpoint = 'mongodb+srv://Colin:banana1234@kinhou17cluster.5knp0.mongodb.net/movie_review_app?retryWrites=true&w=majority';
+const mongooseEndpoint = 'mongodb+srv://Colin:banana1234@kinhou17cluster.5knp0.mongodb.net/movie_review_app?retryWrites=true&w=majority';
 
-mongoose.connect(mongooseEnpoint, { useNewUrlParser: true });
+mongoose.connect(mongooseEndpoint, { useNewUrlParser: true });
 
 const db = mongoose.connection;
 
@@ -30,10 +29,8 @@ app.use(cors({
     origin: '*',
 }));
 
-// app.use(auth_middleware);
 app.use('/api/home', homeRouter);
 app.use('/api/user', userRouter);
-//app.use('/pokemon', pokemonRoute);
 
 app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));

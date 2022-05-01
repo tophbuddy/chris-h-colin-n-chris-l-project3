@@ -1,71 +1,85 @@
 const express = require('express');
+const auth_middleware = require("./middleware/auth_middleware");
+const MovieModel = require("./model/movie.model");
 
-const route = express.Router();
+const router = express.Router();
 
-const pokemons = [
-    {name: "Pikachu", health: 100},
-    {name: "Dinosaur", health: 50},
-    {name: "Bob", health: 25},
-];
 
-// '/pokemon' + '/'
-route.get('/', function(request, response) {
+router.get('/', auth_middleware, function(request, response) {
 
-    const nameLength = request.query.maxNameLength;
+    const username = request.username;
 
-    if (nameLength) {
-        const pokemonLengthList = [];
-        for (let i = 0; i < pokemons.length; i++) {
-            if (pokemons[i].name.length < nameLength) {
-                pokemonLengthList.push(pokemons[i])
-            }
-        }
-
-        return response.send(pokemonLengthList);
-    }
-
-    response.status(200);
-
-    return response.send(pokemons); 
+    return MovieModel.getMoviesByUsername(username)
+        .then(allMovies => {
+            response.status(200).send(allMovies)
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
 })
 
-route.post('/', function(request, response) {
+router.get('/', function(request, response) {
 
-    const name = request.body.name;
+    const username = request.username;
 
-    if(!name) return response.send(401);
-
-    const newPokemon = {
-        name: name,
-        health: 60,
-    };
-
-    pokemons.push(newPokemon);
-
-    return response.send(200);
+    return MovieModel.getAllMovies()
+        .then(allMovies => {
+            response.status(200).send(allMovies)
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
 })
 
-// '/pokemon' + '/pikachu'
-route.get('/:pokemonName', function(request, response) {
+router.get('/:MovieId', function(request, response) {
 
-    /* params = {
-        pokemonName: 'pikachu'/'dinosaur',
-    }
-    */
-    const nameOfPokemon = request.params.pokemonName;
+    const movieId = request.params.movieId;
 
-    response.status(200);
-
-    for (let i = 0; i < pokemons.length; i++ ) {
-        if (pokemons[i].name.toLowerCase() === nameOfPokemon.toLowerCase()) {
-            return response.send(true);
-
-        }
-    }
-
-    return response.send(false);
-
-
+    return MovieModel.getMovieById(movieId)
+        .then(movie => {
+            response.status(200).send(movie);
+        })
+        .catch(error => {
+            response.status(400).send(error);
+        })
+    // const homeId = request.params.homeId;
+    // for(let i = 0; i < homes.length; i++) {
+    //     if (homes[i].id === parseInt(homeId)) {
+    //         response.status(200).send(homes[i]);
+    //         return;
+    //     }
+    // }
+    // return response.status(404).send('No home matches ID = ' + homeId);
 })
 
-module.exports = route;
+router.post('/', auth_middleware, function(request, response) {
+    //const username = request.username;
+    const movieTitle = request.body.title;
+
+    // require two of these fields, add other fields
+    const movieDirector = request.body.director;
+    const movieDate = request.body.date;
+    const movieGenre = request.body.genre;
+    const movieDescription = request.body.description;
+
+    if ((Number(movieDirector) + Number(movieDate) + Number(movieGenre) + Number(movieDescription)) < 2) {
+        response.status(401).send("Need at least 2 fields");
+    }
+
+    const movie = {
+        movieTitle: movieTitle,
+        director: movieDirector,
+        genre: movieGenre,
+        releaseDate: movieDate
+    }
+
+    return MovieModel.createMovie(movie)
+        .then(dbResponse => {
+            response.status(200).send(dbResponse);
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
+});
+
+module.exports = router;

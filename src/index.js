@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import HomeEntry from './HomeEntry';
-import Login from './Login';
-import CreateUser from './CreateUser';
+import HomeEntry from './components/HomeEntry';
+import Login from './components/Login';
+import CreateUser from './components/CreateUser';
 import Header from './Header';
 
 ReactDOM.render(

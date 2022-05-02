@@ -6,19 +6,19 @@ const auth_middleware = require('./middleware/auth_middleware');
 const router = express.Router();
 
 router.post('/authenticate', function(request, response) {
-    const {username, password} = request.body;
+    const {usernameGiven, passwordGiven} = request.body;
 
-    return UserModel.getUserByUserName(username)
+    return UserModel.getUserByUserName(usernameGiven)
         .then(user => {
-            if (user.password === password) {
+            if (user.password === passwordGiven) {
                 const payload = {
-                    username: username,
+                    username: usernameGiven,
                 };
                 const token = jwt.sign(payload, "SUPER_SECRET", {
                     expiresIn: '14d'
                 });
                 return response.cookie('token', token, {httpOnly: true})
-                    .status(200).send({username});
+                    .status(200).send({usernameGiven});
             } 
 
             return response.status(401).send("Invalid password");

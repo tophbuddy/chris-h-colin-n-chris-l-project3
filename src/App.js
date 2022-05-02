@@ -15,10 +15,9 @@ export const Context = createContext();
 function App() {
 
 
-    const [username, setUsername] = useState(null);
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const [homes, setHomes] = useState([]);
     const [newHomeInput, setNewHomeInput] = useState('');
@@ -65,7 +64,9 @@ function App() {
                     username,
                     setUsername,
                     password,
-                    setPassword
+                    setPassword,
+                    loggedIn,
+                    setLoggedIn
                 }
             }>
                 <NavBar />

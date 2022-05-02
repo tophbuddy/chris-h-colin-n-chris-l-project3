@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import Button from "@mui/material/Button";
 import { AppBar, Toolbar } from "@mui/material";
+import LoginStatus from "../LoginStatus";
+
 // import { makeStyles } from "@mui/material/styles";
 // import { makeStyles } from '@mui/styles';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -26,15 +28,10 @@ export default function NavBar() {
                     <Button variant="contained" to={"/home"} component={Link}>
                         Home
                     </Button>
-                    <Button variant="contained" to={"/login"} component={Link}>
-                        Login
-                    </Button>
-                    <Button variant="contained" to={"/createUser"} component={Link}>
-                        Create User
-                    </Button>
                     <Button variant="contained" to={"/createMovie"} component={Link}>
                         Add Movie
                     </Button>
+                    <LoginStatus/>
                 </div>
             </Toolbar>
         </AppBar>

@@ -1,54 +1,87 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState, createContext} from 'react';
 
 import Axios from 'axios';
+import NavBar from "./components/NavBar/NavBar";
+import {Route, Routes} from "react-router-dom";
+import Home from "./components/HomePage/Home";
+import MovieEntry from "./components/MovieEntry";
+import Login from "./components/Login";
+import CreateUser from "./components/CreateUser";
+
+
+export const Context = createContext();
 
 function App() {
 
-  const [homes, setHomes] = useState([]);
-  const [newHomeInput, setNewHomeInput] = useState('');
 
-  function getHomes() {
-    Axios.get('/api/home')
-      .then(function(response) {
-        setHomes(response.data);
-      })
-  }
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState('');
 
-  function createNewHome() {
-    if (!newHomeInput) return;
 
-    Axios.post('/api/home', {
-      address: newHomeInput,
-    })
-      .then(function(response) {
-        setNewHomeInput('');
-        getHomes();
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
 
-  }
+    const [homes, setHomes] = useState([]);
+    const [newHomeInput, setNewHomeInput] = useState('');
 
-  useEffect(getHomes, []);
+    function getHomes() {
+        Axios.get('/api/home')
+            .then(function (response) {
+                setHomes(response.data);
+            })
+    }
 
-  const homeComponent = [];
-  for(let home of homes) {
-    homeComponent.push(<div>
-      <a href={'/home/' + home._id}><h1>{home.address}</h1></a>
+    function createNewHome() {
+        if (!newHomeInput) return;
 
-      <h5>Room Count: {home.roomCount}</h5>
-      </div>)
+        Axios.post('/api/home', {
+            address: newHomeInput,
+        })
+            .then(function (response) {
+                setNewHomeInput('');
+                getHomes();
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
 
-  }
+    }
 
-  return (<div>
-    {homeComponent}
-    <input value={newHomeInput} onChange={e => setNewHomeInput(e.target.value)}>
-    
-    </input>
-    <button onClick={createNewHome}>Add new home :)</button>
-  </div>)
+    useEffect(getHomes, []);
+
+    const homeComponent = [];
+    for (let home of homes) {
+        homeComponent.push(<div>
+            <a href={'/home/' + home._id}><h1>{home.address}</h1></a>
+
+            <h5>Room Count: {home.roomCount}</h5>
+        </div>)
+
+    }
+
+    return (
+        <div>
+            <Context.Provider value={
+                {
+                    username,
+                    setUsername,
+                    password,
+                    setPassword
+                }
+            }>
+                <NavBar />
+                <Routes>
+                    <Route path={"/home"} element={<Home />}/>
+                    <Route path={"/movie/:movieId"} element={<MovieEntry />}/>
+                    <Route path={"/login"} element={<Login />} />
+                    <Route path={"/createUser"} element={<CreateUser />} />
+                </Routes>
+
+
+                {homeComponent}
+
+
+
+            </Context.Provider>
+        </div>);
 }
 
 export default App;

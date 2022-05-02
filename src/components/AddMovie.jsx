@@ -10,13 +10,14 @@ export default function AddMovie(props) {
     const [director, setDirector] = useState('');
     const [genre, setGenre] = useState('');
     const [description, setDescription] = useState('');
+    const [releaseDate, setReleaseDate] = useState('');
 
     function addNewMovie() {
-        Axios.post('/api/movies', {movieTitle, director, genre, description})
+        Axios.post('/api/movies', {movieTitle, director, genre, description, releaseDate})
             .then(response => {
                 console.log("Added movie");
                 console.log(response.data);
-                navigate('/home');
+                navigate('/movie/' + response.data._id);
 
             })
             .catch(error => console.log(error));
@@ -41,6 +42,11 @@ export default function AddMovie(props) {
                 Description
             </h4>
             <input value={description} onChange={e => setDescription(e.target.value)} />
+            <br/>
+            <h4>
+                Release Date
+            </h4>
+            <input value={releaseDate} onChange={e => setReleaseDate(e.target.value)} />
             <br/>
             <button onClick={addNewMovie}>
                 Add Movie

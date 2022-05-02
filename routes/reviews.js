@@ -4,23 +4,7 @@ const ReviewModel = require("./model/review.model");
 
 const router = express.Router();
 
-
-router.get('/', auth_middleware, function(request, response) {
-
-    const username = request.username;
-
-    return ReviewModel.getReviewsByUsername(username)
-        .then(allReviews => {
-            response.status(200).send(allReviews)
-        })
-        .catch(error => {
-            response.status(400).send(error)
-        })
-})
-
 router.get('/', function(request, response) {
-
-    const username = request.username;
 
     return ReviewModel.getAllReviews()
         .then(allReviews => {
@@ -43,6 +27,20 @@ router.get('/:ReviewId', function(request, response) {
             response.status(400).send(error);
         })
 })
+
+router.get('/:username', auth_middleware, function(request, response) {
+
+    const username = request.username;
+
+    return ReviewModel.getReviewsByUsername(username)
+        .then(allReviews => {
+            response.status(200).send(allReviews)
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
+})
+
 
 router.post('/', auth_middleware, function(request, response) {
 

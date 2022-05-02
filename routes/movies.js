@@ -4,8 +4,18 @@ const MovieModel = require("./model/movie.model");
 
 const router = express.Router();
 
+router.get('/', function(request, response) {
 
-router.get('/', auth_middleware, function(request, response) {
+    return MovieModel.getAllMovies()
+        .then(allMovies => {
+            response.status(200).send(allMovies)
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
+})
+
+router.get('/:genre', auth_middleware, function(request, response) {
 
     const movieGenre = request.params.genre;
 
@@ -18,18 +28,7 @@ router.get('/', auth_middleware, function(request, response) {
         })
 })
 
-router.get('/', function(request, response) {
-
-    return MovieModel.getAllMovies()
-        .then(allMovies => {
-            response.status(200).send(allMovies)
-        })
-        .catch(error => {
-            response.status(400).send(error)
-        })
-})
-
-router.get('/:MovieId', function(request, response) {
+router.get('/:movieId', function(request, response) {
 
     const movieId = request.params.movieId;
 
@@ -42,7 +41,7 @@ router.get('/:MovieId', function(request, response) {
         })
 })
 
-router.post('/', auth_middleware, function(request, response) {
+router.post('/', function(request, response) {
     //const username = request.username;
     const title = request.body.movieTitle;
 

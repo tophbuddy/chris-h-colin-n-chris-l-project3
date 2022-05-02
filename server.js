@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
+
 const userRouter = require('./routes/user');
 const movieRouter = require('./routes/movies');
 
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use(cors({
     origin: '*',
 }));
+
 
 app.use('/api/user', userRouter);
 app.use('/api/movies', movieRouter);

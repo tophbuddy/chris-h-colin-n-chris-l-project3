@@ -7,6 +7,7 @@ const app = express();
 
 const homeRouter = require('./routes/home');
 const userRouter = require('./routes/user');
+const movieRouter = require('./routes/movies');
 
 const mongooseEndpoint = 'mongodb+srv://Colin:banana1234@kinhou17cluster.5knp0.mongodb.net/movie_review_app?retryWrites=true&w=majority';
 
@@ -31,6 +32,7 @@ app.use(cors({
 
 app.use('/api/home', homeRouter);
 app.use('/api/user', userRouter);
+app.use('/api/movies', movieRouter);
 
 app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));

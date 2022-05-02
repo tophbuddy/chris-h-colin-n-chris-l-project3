@@ -15,19 +15,6 @@ router.get('/', function(request, response) {
         })
 })
 
-router.get('/:genre', auth_middleware, function(request, response) {
-
-    const movieGenre = request.params.genre;
-
-    return MovieModel.getMoviesByGenre(movieGenre)
-        .then(allMovies => {
-            response.status(200).send(allMovies)
-        })
-        .catch(error => {
-            response.status(400).send(error)
-        })
-})
-
 router.get('/:movieId', function(request, response) {
 
     const movieId = request.params.movieId;
@@ -38,6 +25,19 @@ router.get('/:movieId', function(request, response) {
         })
         .catch(error => {
             response.status(400).send(error);
+        })
+})
+
+router.get('/:genre', auth_middleware, function(request, response) {
+
+    const movieGenre = request.params.genre;
+
+    return MovieModel.getMoviesByGenre(movieGenre)
+        .then(allMovies => {
+            response.status(200).send(allMovies)
+        })
+        .catch(error => {
+            response.status(400).send(error)
         })
 })
 

@@ -36,6 +36,9 @@ export default function MovieEntry(props) {
             <h2>
                 Release Date: {movie.releaseDate}
             </h2>
+            <h2>
+                Description: {movie.description}
+            </h2>
             <h3>
                 Reviews will be displayed here
             </h3>

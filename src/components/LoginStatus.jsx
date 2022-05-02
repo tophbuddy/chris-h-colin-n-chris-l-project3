@@ -1,15 +1,13 @@
 import Axios from 'axios';
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {Context} from "../App";
 import {useNavigate} from 'react-router';
 import {Link} from 'react-router-dom';
 import Button from "@mui/material/Button";
-import {AppBar, Toolbar} from "@mui/material";
 
 export default function LoginStatus(props) {
 
     const {username, setUsername, setPassword, loggedIn, setLoggedIn} = useContext(Context);
-
     const navigate = useNavigate();
 
     useEffect(function () {
@@ -28,7 +26,6 @@ export default function LoginStatus(props) {
             .then(setLoggedIn(false))
             .catch(error => console.log("Error logging out"));
     }
-
 
     return (
         <div>

@@ -1,8 +1,6 @@
-import React, {useEffect, useState, createContext} from 'react';
-
-import Axios from 'axios';
+import React, {useState, createContext} from 'react';
 import NavBar from "./components/NavBar/NavBar";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, Navigate} from "react-router-dom";
 import Home from "./components/HomePage/Home";
 import MovieEntry from "./components/MovieEntry";
 import AddMovie from "./components/AddMovie"
@@ -14,10 +12,8 @@ export const Context = createContext();
 
 function App() {
 
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
     const [loggedIn, setLoggedIn] = useState(false);
 
     return (
@@ -34,6 +30,7 @@ function App() {
             }>
                 <NavBar />
                 <Routes>
+                    <Route path="" element={<Navigate to="/home" />} />
                     <Route path={"/home"} element={<Home />}/>
                     <Route path={"/movie/:movieId"} element={<MovieEntry />}/>
                     <Route path={"/addMovie"} element={<AddMovie />}/>

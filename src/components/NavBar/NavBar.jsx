@@ -28,7 +28,7 @@ export default function NavBar() {
                     <Button variant="contained" to={"/home"} component={Link}>
                         Home
                     </Button>
-                    <Button variant="contained" to={"/createMovie"} component={Link}>
+                    <Button variant="contained" to={"/addMovie"} component={Link}>
                         Add Movie
                     </Button>
                     <LoginStatus/>

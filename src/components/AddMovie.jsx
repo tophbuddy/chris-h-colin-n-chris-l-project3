@@ -12,7 +12,7 @@ export default function AddMovie(props) {
     const [description, setDescription] = useState('');
 
     function addNewMovie() {
-        Axios.post('/api/movies', {movieTitle, director})
+        Axios.post('/api/movies', {movieTitle, director, genre, description})
             .then(response => {
                 console.log("Added movie");
                 console.log(response.data);

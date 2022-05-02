@@ -20,7 +20,7 @@ export default function Home() {
     const movieComponent = [];
     for (let movie of movies) {
         movieComponent.push(<div>
-            <a href={'/home/' + movie._id}><h1>{movie.movieTitle}</h1></a>
+            <a href={'/movie/' + movie._id}><h1>{movie.movieTitle}</h1></a>
 
             <h1>Room Count: {movie.director}</h1>
         </div>)

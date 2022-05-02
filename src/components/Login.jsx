@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Axios from 'axios';
 import { useNavigate } from 'react-router';
+import {Context} from "../App";
 
 export default function Login(props) {
 
+    const { username, setUsername, password, setPassword } = useContext(Context);
+
 
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+
 
     function login() {
         Axios.post('/api/user/authenticate', {username, password})

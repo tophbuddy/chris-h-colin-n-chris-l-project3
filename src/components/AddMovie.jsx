@@ -10,7 +10,7 @@ export default function CreateUser(props) {
     const [director, setDirector] = useState('');
 
     function addNewMovie() {
-        Axios.post('/api/movie', {movieTitle, director})
+        Axios.post('/api/movies', {movieTitle, director})
             .then(response => {
                 console.log("Added movie");
                 console.log(response.data);

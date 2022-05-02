@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Axios from 'axios';
 import { useNavigate } from 'react-router';
 
-export default function CreateUser(props) {
+export default function AddMovie(props) {
 
 
     const navigate = useNavigate();
@@ -37,6 +37,4 @@ export default function CreateUser(props) {
         </div>
 
     )
-
-
 } 

@@ -22,7 +22,7 @@ export default function Home() {
         movieComponent.push(<div>
             <a href={'/movie/' + movie._id}><h1>{movie.movieTitle}</h1></a>
 
-            <h1>Room Count: {movie.director}</h1>
+            <h1>Director: {movie.director}</h1>
         </div>)
 
     }

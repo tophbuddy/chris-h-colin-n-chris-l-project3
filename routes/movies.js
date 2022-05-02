@@ -7,9 +7,9 @@ const router = express.Router();
 
 router.get('/', auth_middleware, function(request, response) {
 
-    const username = request.username;
+    const movieGenre = request.params.genre;
 
-    return MovieModel.getMoviesByUsername(username)
+    return MovieModel.getMoviesByGenre(movieGenre)
         .then(allMovies => {
             response.status(200).send(allMovies)
         })
@@ -19,8 +19,6 @@ router.get('/', auth_middleware, function(request, response) {
 })
 
 router.get('/', function(request, response) {
-
-    const username = request.username;
 
     return MovieModel.getAllMovies()
         .then(allMovies => {
@@ -46,7 +44,7 @@ router.get('/:MovieId', function(request, response) {
 
 router.post('/', auth_middleware, function(request, response) {
     //const username = request.username;
-    const movieTitle = request.body.title;
+    const title = request.body.movieTitle;
 
     // require two of these fields, add other fields
     const movieDirector = request.body.director;
@@ -59,10 +57,11 @@ router.post('/', auth_middleware, function(request, response) {
     }
 
     const movie = {
-        movieTitle: movieTitle,
+        movieTitle: title,
         director: movieDirector,
         genre: movieGenre,
-        releaseDate: movieDate
+        description: movieDescription,
+        releaseDate: movieDate,
     }
 
     return MovieModel.createMovie(movie)

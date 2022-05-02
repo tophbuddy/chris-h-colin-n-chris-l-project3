@@ -42,14 +42,6 @@ router.get('/:MovieId', function(request, response) {
         .catch(error => {
             response.status(400).send(error);
         })
-    // const homeId = request.params.homeId;
-    // for(let i = 0; i < homes.length; i++) {
-    //     if (homes[i].id === parseInt(homeId)) {
-    //         response.status(200).send(homes[i]);
-    //         return;
-    //     }
-    // }
-    // return response.status(404).send('No home matches ID = ' + homeId);
 })
 
 router.post('/', auth_middleware, function(request, response) {

@@ -14,6 +14,12 @@ function getMoviesByDirector(director) {
     }).exec();
 }
 
+function getMoviesByGenre(genre) {
+    return MovieModel.find({
+        genre: genre
+    }).exec();
+}
+
 function getAllMovies() {
     return MovieModel.find().exec();
 }
@@ -24,6 +30,7 @@ function getMovieById(id) {
 
 module.exports = {
     createMovie,
+    getMoviesByGenre,
     getAllMovies,
     getMovieById,
     getMoviesByDirector,

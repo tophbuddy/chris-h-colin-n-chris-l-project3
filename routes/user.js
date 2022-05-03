@@ -4,13 +4,18 @@ const UserModel = require('./model/user.model');
 const jwt = require('jsonwebtoken');
 const auth_middleware = require('./middleware/auth_middleware');
 const router = express.Router();
+const bcrypt = require("bcryptjs");
+
 
 router.post('/authenticate', function (request, response) {
     const {usernameGiven, passwordGiven} = request.body;
 
     return UserModel.getUserByUserName(usernameGiven)
         .then(user => {
-            if (user.password === passwordGiven) {
+            console.log(user.password);
+            console.log(passwordGiven);
+            if (bcrypt.compareSync(passwordGiven, user.password)) {
+            //if (user.password === passwordGiven) {
                 const payload = {
                     username: usernameGiven,
                 };
@@ -55,11 +60,13 @@ router.get('/:username', function (request, response) {
 
 router.post('/', function (request, response) {
     console.log(request.body);
-    const {usernameGiven, passwordGiven} = request.body;
+    let {usernameGiven, passwordGiven} = request.body;
 
     if (!usernameGiven || !passwordGiven) {
         response.status(401).send("Missing username or password argument")
     }
+
+    passwordGiven = bcrypt.hashSync(passwordGiven, 10);
 
     const user = {
         username: usernameGiven,

@@ -26,7 +26,7 @@ export default function Home() {
             <Card sx={{ minWidth: 275 }}>
                 <CardContent>
                 <Typography> 
-                    <a href={'/movie/' + movie._id}><h2>{movie.movieTitle}</h2></a>
+                    <a href={'/movie/movieID/' + movie._id}><h2>{movie.movieTitle}</h2></a>
                     <h3>Director: {movie.director}</h3>
                 </Typography>
                 </CardContent>

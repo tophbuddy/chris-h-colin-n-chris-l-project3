@@ -18,12 +18,6 @@ export default function MovieEntry(props) {
 
     const params = useParams();
 
-    // useEffect(function () {
-    //     Axios.get('/api/user/isLoggedIn')
-    //         .then(response => setUsername(response.data.username))
-    //         .catch(error => console.log("User is not logged in"));
-    // }, [])
-
     function getReviews() {
         Axios.get('/api/reviews/getByMovie/' + curMovieTitle)
             .then(function (response) {

@@ -12,6 +12,7 @@ export default function CreateUser(props) {
     const {setUsername, setPassword, setLoggedIn} = useContext(Context);
     const [usernameGiven, setUsernameGiven] = useState("");
     const [passwordGiven, setPasswordGiven] = useState("");
+    const [existingUser, setExistingUser] = useState(false);
     const navigate = useNavigate();
 
     function createNewUser() {
@@ -25,7 +26,16 @@ export default function CreateUser(props) {
                 navigate('/');
 
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+                setExistingUser(true);
+            });
+    }
+
+    function AlreadyUser() {
+        if (existingUser) {
+            return (<div>User already exists, please try logging in</div>);
+        }
     }
 
     return (
@@ -38,7 +48,8 @@ export default function CreateUser(props) {
         autoComplete="off"
     >
         <div>
-            <Typography variant='h4'>Create User</Typography> 
+            <Typography variant='h4'>Create User</Typography>
+            <AlreadyUser />
             <TextField margin={'dense'} label={"Username"} value={usernameGiven} onChange={e => setUsernameGiven(e.target.value)}/>
             <TextField margin={'dense'} label={"Password"} type='password' value={passwordGiven} onChange={e => setPasswordGiven(e.target.value)}/>
             <Button onClick={createNewUser}>

@@ -17,7 +17,7 @@ router.get('/getByMovie/:movieTitle', function(request, response) {
         })
 })
 
-router.get('/:reviewId', function(request, response) {
+router.get('/getByReviewID/:reviewId', function(request, response) {
 
     const reviewId = request.params.reviewId;
 
@@ -30,7 +30,7 @@ router.get('/:reviewId', function(request, response) {
         })
 })
 
-router.get('/:username', auth_middleware, function(request, response) {
+router.get('/getByUsername/:username', auth_middleware, function(request, response) {
 
     const username = request.username;
 

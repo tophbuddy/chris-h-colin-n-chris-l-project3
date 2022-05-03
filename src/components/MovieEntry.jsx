@@ -1,7 +1,8 @@
 import Axios from 'axios';
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router';
-import { Context } from "../App";
+import { useParams } from 'react-router';
+import { useNavigate } from 'react-router';
+import { Context } from "../App.jsx";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -10,7 +11,8 @@ import Typography from '@mui/material/Typography';
 // http://localhost:3000/home/625fcade9c10f6ba1d10faeb
 export default function MovieEntry(props) {
 
-    const {username, loggedIn} = useContext(Context);
+    const navigate = useNavigate();
+    const {username, setUsername, loggedIn, setLoggedIn} = useContext(Context);
     const [movie, setMovie] = useState(undefined);
     const [reviewText, setReviewText] = useState('');
     const [curMovieTitle, setCurMovieTitle] = useState('');
@@ -26,16 +28,17 @@ export default function MovieEntry(props) {
     }
 
     function addNewReview() {
-        if (loggedIn) {
+        // if (loggedIn) {
             Axios.post('/api/reviews', {reviewText, username, curMovieTitle})
                 .then(response => {
                     console.log("Added review");
                     console.log(response.data);
+                    navigate('/movie/movieId/' + movie.movieId);
                 })
                 .catch(error => console.log(error));
-        } else {
-            console.log("User must be logged in to submit review");
-        }
+        // } else {
+        //     console.log("User must be logged in to submit review");
+        // }
     }
 
     useEffect(() => {
@@ -45,13 +48,16 @@ export default function MovieEntry(props) {
             setCurMovieTitle(movie.movieTitle);
             })
     },[]);
-
     useEffect(getReviews, []);
+
     const reviewComponent = [];
     for (let review of reviewSet) {
-        reviewComponent.push(<div>
-            <h1>{review.reviewText}</h1>
-        </div>)
+        reviewComponent.push(
+        <div>
+            {/* <p>Reviewer: {review.owner}</p> */}
+            <p>{review.reviewText}</p>
+        </div>
+        )
 
     }
 
@@ -94,6 +100,6 @@ export default function MovieEntry(props) {
         </div>
         </Typography>
         </CardContent>
-    </Card>)
-
+        </Card>
+    )
 }

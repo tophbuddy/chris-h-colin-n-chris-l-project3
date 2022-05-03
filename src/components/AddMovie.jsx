@@ -21,7 +21,7 @@ export default function AddMovie(props) {
             .then(response => {
                 console.log("Added movie");
                 console.log(response.data);
-                navigate('/movie/' + response.data._id);
+                navigate('/movie/movieID/' + response.data._id);
 
             })
             .catch(error => console.log(error));

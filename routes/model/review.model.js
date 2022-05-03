@@ -10,7 +10,7 @@ function createReview(review) {
 
 function getReviewsByMovie(movieTitle) {
     return ReviewModel.find({
-        movie: movieTitle
+        movieName: movieTitle
     }).exec();
 }
 

@@ -45,7 +45,7 @@ export default function MovieEntry(props) {
         Axios.get('/api/movies/movieID/' + params.movieId)
             .then(function(response) {
             setMovie(response.data);
-            // setCurMovieTitle(movie.movieTitle)
+            setCurMovieTitle(movie.movieTitle);
             })
     },[]);
 

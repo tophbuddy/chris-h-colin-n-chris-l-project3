@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import Axios from 'axios';
 import { useNavigate } from 'react-router';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 export default function AddMovie(props) {
 
@@ -24,34 +28,27 @@ export default function AddMovie(props) {
     }
 
     return (
+    <Box
+      component="form"
+      sx={{
+        '& > :not(style)': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
         <div>
-            <h1>Add Movie</h1>
-            <h4>
-                Movie Title
-            </h4>
-            <input value={movieTitle} onChange={e => setMovieTitle(e.target.value)} />
-            <h4>
-                Name of Director
-            </h4>
-            <input value={director} onChange={e => setDirector(e.target.value)} />
-            <h4>
-                Genre
-            </h4>
-            <input value={genre} onChange={e => setGenre(e.target.value)} />
-            <h4>
-                Description
-            </h4>
-            <input value={description} onChange={e => setDescription(e.target.value)} />
-            <br/>
-            <h4>
-                Release Date
-            </h4>
-            <input value={releaseDate} onChange={e => setReleaseDate(e.target.value)} />
-            <br/>
-            <button onClick={addNewMovie}>
+            <Typography variant='h4'>Add Movie</Typography> 
+            <TextField margin={'dense'} label={"Movie Title"} value={movieTitle} onChange={e => setMovieTitle(e.target.value)} />
+            <TextField margin={'dense'} label={"Name of Director"} value={director} onChange={e => setDirector(e.target.value)} />
+            <TextField margin={'dense'} label={"Genre"} value={genre} onChange={e => setGenre(e.target.value)} />
+            <TextField margin={'dense'} label={"Description"} value={description} onChange={e => setDescription(e.target.value)} />
+            <TextField margin={'dense'} label={"Release Date"}value={releaseDate} onChange={e => setReleaseDate(e.target.value)} />
+            <Button size='large' onClick={addNewMovie}>
                 Add Movie
-            </button>
+            </Button>
         </div>
+    </Box>
+        
 
     )
 } 

@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import Button from "@mui/material/Button";
 import { AppBar, Toolbar } from "@mui/material";
 import LoginStatus from "../LoginStatus";
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { indigo } from '@mui/material/colors';
 // import { makeStyles } from "@mui/material/styles";
 // import { makeStyles } from '@mui/styles';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 // const theme = createTheme();
 // const useStyles = makeStyles((theme) => ({
@@ -17,23 +18,37 @@ import LoginStatus from "../LoginStatus";
 //     },
 //     spacer: {marginBottom: theme.spacing(10)}
 // }));
-
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: indigo[500],
+      },
+    },
+  });
 
 export default function NavBar() {
     // const classes = useStyles();
     return (
-        <AppBar position='static'>
-            <Toolbar >
-                <div >
-                    <Button variant="contained" to={"/home"} component={Link}>
+        <ThemeProvider theme={theme}>
+        <AppBar  position='static' >
+            <Toolbar elevation={0} sx={{
+            display: "flex",
+            justifyContent: "space-between"     
+            }} >
+                <div>
+                    <Button disableElevation={true} variant="contained" to={"/home"} component={Link}>
                         Home
                     </Button>
-                    <Button variant="contained" to={"/addMovie"} component={Link}>
+                    
+                    <Button disableElevation={true} variant="contained" to={"/addMovie"} component={Link}>
                         Add Movie
                     </Button>
+                </div>
+                <div>
                     <LoginStatus/>
                 </div>
             </Toolbar>
         </AppBar>
+        </ThemeProvider>
     )
 }

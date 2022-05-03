@@ -2,6 +2,10 @@ import React, {useState, useContext} from 'react';
 import Axios from 'axios';
 import {useNavigate} from 'react-router';
 import {Context} from "../App";
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 export default function Login(props) {
 
@@ -38,21 +42,24 @@ export default function Login(props) {
     }
 
     return (
+    <Box
+      component="form"
+      sx={{
+        '& > :not(style)': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
         <div>
-            <h1>Login</h1>
+            <Typography variant='h4'>Login</Typography> 
             <InvalidMessage/>
-            <h5>
-                Username
-            </h5>
-            <input value={usernameGiven} onChange={e => setUsernameGiven(e.target.value)}/>
-            <h5>
-                Password
-            </h5>
-            <input type='password' value={passwordGiven} onChange={e => setPasswordGiven(e.target.value)}/>
-            <button onClick={login}>
+            <TextField margin={'dense'} label={"Username"} value={usernameGiven} onChange={e => setUsernameGiven(e.target.value)}/>
+            <TextField margin={'dense'} label={"Password"} type='password' value={passwordGiven} onChange={e => setPasswordGiven(e.target.value)}/>
+            <Button size='large' onClick={login}>
                 Login
-            </button>
+            </Button>
         </div>
+    </Box>
 
     )
 

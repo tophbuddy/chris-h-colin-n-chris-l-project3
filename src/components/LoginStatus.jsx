@@ -4,6 +4,8 @@ import {Context} from "../App";
 import {useNavigate} from 'react-router';
 import {Link} from 'react-router-dom';
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import './LoginStatus.css';
 
 export default function LoginStatus(props) {
 
@@ -30,21 +32,22 @@ export default function LoginStatus(props) {
     return (
         <div>
             {loggedIn ?
-                <div>
-                    {username.toUpperCase()}
-                    <Button variant="contained" onClick={logout}>
+                <div className='LoggedIn'>
+                    <Typography sx={{marginRight: 1, marginTop: 1}}>{username.toUpperCase()}</Typography>
+                    <Button disableElevation={true} variant="contained" onClick={logout}>
                         LOG OUT
                     </Button>
                 </div>
                 :
                 <div>
-                    <Button variant="contained" to={"/login"} component={Link}>
+                    <Button disableElevation={true} variant="contained" to={"/login"} component={Link}>
                         LOGIN
                     </Button>
-                    <Button variant="contained" to={"/createUser"} component={Link}>
+                    <Button disableElevation={true} variant="contained" to={"/createUser"} component={Link}>
                         CREATE USER
                     </Button>
-                </div>}
+                </div>
+            }
         </div>
     )
 

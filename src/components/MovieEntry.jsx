@@ -2,6 +2,9 @@ import Axios from 'axios';
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { Context } from "../App";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 
 // http://localhost:3000/home/625fcade9c10f6ba1d10faeb
@@ -65,6 +68,9 @@ export default function MovieEntry(props) {
     }
 
     return (
+        <Card>
+        <CardContent>
+            <Typography>
         <div>
             <h2>
                 Movie Image will be displayed here
@@ -92,6 +98,8 @@ export default function MovieEntry(props) {
             <br/>
             {reviewComponent}
         </div>
-    )
+        </Typography>
+        </CardContent>
+    </Card>)
 
 }

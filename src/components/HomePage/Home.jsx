@@ -5,6 +5,8 @@ import {Route, Routes} from "react-router-dom";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
+
 
 // export const Context = createContext();
 
@@ -25,8 +27,8 @@ export default function Home() {
         movieComponent.push(
             <Card sx={{ minWidth: 275 }}>
                 <CardContent>
-                <Typography> 
-                    <a href={'/movie/movieID/' + movie._id}><h2>{movie.movieTitle}</h2></a>
+                <Typography>
+                    <Link to={'/movie/movieID/' + movie._id}><h2>{movie.movieTitle}</h2></Link>
                     <h3>Director: {movie.director}</h3>
                 </Typography>
                 </CardContent>

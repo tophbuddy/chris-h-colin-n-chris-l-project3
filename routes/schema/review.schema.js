@@ -2,8 +2,8 @@ const Schema = require('mongoose').Schema;
 
 const ReviewSchema = new Schema({
     reviewText: String,
-    reviewId: String,
     owner: String,
+    movieName: String,
     creationDate: {
         type: Date,
         default: Date.now,

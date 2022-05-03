@@ -7,7 +7,28 @@ import { useParams } from 'react-router';
 export default function MovieEntry(props) {
 
     const [movie, setMovie] = useState(undefined);
+    // const [review, setReview] = useState('');
+    const [reviewSet, setReviewSet] = useState([]);
+
     const params = useParams();
+
+    function getReviews() {
+        Axios.get('/api/reviews' + movie.movieTitle)
+            .then(function (response) {
+                setReviewSet(response.data);
+            })
+    }
+
+    function addNewReview() {
+        Axios.post('/api/reviews', {reviewText, owner, movieName})
+            .then(response => {
+                console.log("Added review");
+                console.log(response.data);
+                navigate('/home');
+
+            })
+            .catch(error => console.log(error));
+    }
 
     useEffect(() => {
         Axios.get('/api/movies/' + params.movieId)
@@ -15,6 +36,17 @@ export default function MovieEntry(props) {
             setMovie(response.data);
             })
     },[]);
+
+    useEffect(getReviews, []);
+    const reviewComponent = [];
+    for (let review of reviews) {
+        movieComponent.push(<div>
+            <a href={'/movie/' + movie._id}><h1>{movie.movieTitle}</h1></a>
+
+            <h1>Director: {movie.director}</h1>
+        </div>)
+
+    }
 
     if (!movie) {
         return (<div>
@@ -40,8 +72,15 @@ export default function MovieEntry(props) {
                 Description: {movie.description}
             </h2>
             <h3>
-                Reviews will be displayed here
+                Movie Reviews
             </h3>
+            <input value={reviewText} onChange={e => setDescription(e.target.value)} />
+            <br/>
+            <button onClick={addNewReview}>
+                Add Movie
+            </button>
+            <br/>
+            {reviewComponent}
         </div>
     )
 

@@ -9,7 +9,7 @@ export default function CreateReview(props) {
     const [movieTitle, setMovieTitle] = useState('');
     const [director, setDirector] = useState('');
 
-    function addNewMovie() {
+    function addReview() {
         Axios.post('/api/movies', {movieTitle, director})
             .then(response => {
                 console.log("Added movie");

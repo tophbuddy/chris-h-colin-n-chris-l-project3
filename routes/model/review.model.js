@@ -8,6 +8,12 @@ function createReview(review) {
     return ReviewModel.create(review);
 }
 
+function getReviewsByMovie(movieTitle) {
+    return ReviewModel.find({
+        movie: movieTitle
+    }).exec();
+}
+
 function getReviewsByUsername(username) {
     return ReviewModel.find({
         owner: username
@@ -24,6 +30,7 @@ function getReviewById(id) {
 
 module.exports = {
     createReview,
+    getReviewsByMovie,
     getAllReviews,
     getReviewById,
     getReviewsByUsername,

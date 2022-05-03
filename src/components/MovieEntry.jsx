@@ -8,7 +8,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 
-// http://localhost:3000/home/625fcade9c10f6ba1d10faeb
 export default function MovieEntry(props) {
 
     const navigate = useNavigate();
@@ -24,6 +23,7 @@ export default function MovieEntry(props) {
         Axios.get('/api/reviews/getByMovie/' + curMovieTitle)
             .then(function (response) {
                 setReviewSet(response.data);
+                console.log(response.data);
             })
     }
 
@@ -33,7 +33,7 @@ export default function MovieEntry(props) {
                 .then(response => {
                     console.log("Added review");
                     console.log(response.data);
-                    navigate('/movie/movieId/' + movie.movieId);
+                    navigate('/movie/movieID/' + movie.movieId);
                 })
                 .catch(error => console.log(error));
         // } else {
@@ -45,7 +45,8 @@ export default function MovieEntry(props) {
         Axios.get('/api/movies/movieID/' + params.movieId)
             .then(function(response) {
             setMovie(response.data);
-            setCurMovieTitle(movie.movieTitle);
+            setCurMovieTitle(response.data.movieTitle);
+            console.log("user status " + loggedIn);
             })
     },[]);
     useEffect(getReviews, []);
@@ -70,34 +71,34 @@ export default function MovieEntry(props) {
     return (
         <Card>
         <CardContent>
-            <Typography>
-        <div>
-            <h2>
-                Movie Image will be displayed here
-            </h2>
-            <h1>
-                Movie Title: {movie.movieTitle} 
-            </h1>
-            <h2>
-                Director: {movie.director}
-            </h2>
-            <h2>
-                Release Date: {movie.releaseDate}
-            </h2>
-            <h2>
-                Description: {movie.description}
-            </h2>
-            <h3>
-                Movie Reviews
-            </h3>
-            <input value={reviewText} onChange={e => setReviewText(e.target.value)} />
-            <br/>
-            <button onClick={addNewReview}>
-                Submit Review
-            </button>
-            <br/>
-            {reviewComponent}
-        </div>
+            <Typography >
+                <div>
+                    <h2>
+                        Movie Image will be displayed here
+                    </h2>
+                    <h1>
+                        Movie Title: {movie.movieTitle} 
+                    </h1>
+                    <h2>
+                        Director: {movie.director}
+                    </h2>
+                    <h2>
+                        Release Date: {movie.releaseDate}
+                    </h2>
+                    <h2>
+                        Description: {movie.description}
+                    </h2>
+                    <h3>
+                        Movie Reviews
+                    </h3>
+                    <input value={reviewText} onChange={e => setReviewText(e.target.value)} />
+                    <br/>
+                    <button onClick={addNewReview}>
+                        Submit Review
+                    </button>
+                    <br/>
+                    {reviewComponent}
+                </div>
         </Typography>
         </CardContent>
         </Card>

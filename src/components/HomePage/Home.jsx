@@ -6,7 +6,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
-export const Context = createContext();
+// export const Context = createContext();
 
 export default function Home() {
 
@@ -33,6 +33,7 @@ export default function Home() {
             </Card>)
 
     }
+
 
     return (
         <div>

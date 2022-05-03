@@ -5,19 +5,7 @@ import { AppBar, Toolbar } from "@mui/material";
 import LoginStatus from "../LoginStatus";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { indigo } from '@mui/material/colors';
-// import { makeStyles } from "@mui/material/styles";
-// import { makeStyles } from '@mui/styles';
 
-
-// const theme = createTheme();
-// const useStyles = makeStyles((theme) => ({
-//     margin: {
-//         "& > *": {
-//             margin: theme.spacing(1)
-//         }
-//     },
-//     spacer: {marginBottom: theme.spacing(10)}
-// }));
 const theme = createTheme({
     palette: {
       primary: {
@@ -27,7 +15,6 @@ const theme = createTheme({
   });
 
 export default function NavBar() {
-    // const classes = useStyles();
     return (
         <ThemeProvider theme={theme}>
         <AppBar  position='static' >

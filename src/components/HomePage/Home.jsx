@@ -22,13 +22,6 @@ export default function Home() {
     useEffect(getMovies, []);
     const movieComponent = [];
     for (let movie of movies) {
-<<<<<<< HEAD
-        movieComponent.push(<div>
-            <a href={'/movie/movieID/' + movie._id}><h1>{movie.movieTitle}</h1></a>
-
-            <h1>Director: {movie.director}</h1>
-        </div>)
-=======
         movieComponent.push(
             <Card sx={{ minWidth: 275 }}>
                 <CardContent>
@@ -38,7 +31,6 @@ export default function Home() {
                 </Typography>
                 </CardContent>
             </Card>)
->>>>>>> main
 
     }
 

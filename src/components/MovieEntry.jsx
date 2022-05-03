@@ -1,49 +1,59 @@
 import Axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router';
+import { Context } from "../App";
 
 
 // http://localhost:3000/home/625fcade9c10f6ba1d10faeb
 export default function MovieEntry(props) {
 
+    const {username, loggedIn} = useContext(Context);
     const [movie, setMovie] = useState(undefined);
-    // const [review, setReview] = useState('');
+    const [reviewText, setReviewText] = useState('');
+    const [curMovieTitle, setCurMovieTitle] = useState('');
     const [reviewSet, setReviewSet] = useState([]);
 
     const params = useParams();
 
+    // useEffect(function () {
+    //     Axios.get('/api/user/isLoggedIn')
+    //         .then(response => setUsername(response.data.username))
+    //         .catch(error => console.log("User is not logged in"));
+    // }, [])
+
     function getReviews() {
-        Axios.get('/api/reviews' + movie.movieTitle)
+        Axios.get('/api/reviews/getByMovie/' + curMovieTitle)
             .then(function (response) {
                 setReviewSet(response.data);
             })
     }
 
     function addNewReview() {
-        Axios.post('/api/reviews', {reviewText, owner, movieName})
-            .then(response => {
-                console.log("Added review");
-                console.log(response.data);
-                navigate('/home');
-
-            })
-            .catch(error => console.log(error));
+        if (loggedIn) {
+            Axios.post('/api/reviews', {reviewText, username, curMovieTitle})
+                .then(response => {
+                    console.log("Added review");
+                    console.log(response.data);
+                })
+                .catch(error => console.log(error));
+        } else {
+            console.log("User must be logged in to submit review");
+        }
     }
 
     useEffect(() => {
-        Axios.get('/api/movies/' + params.movieId)
+        Axios.get('/api/movies/movieID/' + params.movieId)
             .then(function(response) {
             setMovie(response.data);
+            // setCurMovieTitle(movie.movieTitle)
             })
     },[]);
 
     useEffect(getReviews, []);
     const reviewComponent = [];
-    for (let review of reviews) {
-        movieComponent.push(<div>
-            <a href={'/movie/' + movie._id}><h1>{movie.movieTitle}</h1></a>
-
-            <h1>Director: {movie.director}</h1>
+    for (let review of reviewSet) {
+        reviewComponent.push(<div>
+            <h1>{review.reviewText}</h1>
         </div>)
 
     }
@@ -74,10 +84,10 @@ export default function MovieEntry(props) {
             <h3>
                 Movie Reviews
             </h3>
-            <input value={reviewText} onChange={e => setDescription(e.target.value)} />
+            <input value={reviewText} onChange={e => setReviewText(e.target.value)} />
             <br/>
             <button onClick={addNewReview}>
-                Add Movie
+                Submit Review
             </button>
             <br/>
             {reviewComponent}

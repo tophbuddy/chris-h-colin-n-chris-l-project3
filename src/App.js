@@ -32,7 +32,7 @@ function App() {
                 <Routes>
                     <Route path="" element={<Navigate to="/home" />} />
                     <Route path={"/home"} element={<Home />}/>
-                    <Route path={"/movie/:movieId"} element={<MovieEntry />}/>
+                    <Route path={"/movie/movieID/:movieId"} element={<MovieEntry />}/>
                     <Route path={"/addMovie"} element={<AddMovie />}/>
                     <Route path={"/login"} element={<Login />} />
                     <Route path={"/createUser"} element={<CreateUser />} />

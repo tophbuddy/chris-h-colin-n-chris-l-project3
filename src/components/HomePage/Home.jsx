@@ -10,7 +10,7 @@ export default function Home() {
     const [movies, setMovies] = useState([]);
 
     function getMovies() {
-        Axios.get('/api/movies')
+        Axios.get('/api/movies/allMovies')
             .then(function (response) {
                 setMovies(response.data);
             })
@@ -20,7 +20,7 @@ export default function Home() {
     const movieComponent = [];
     for (let movie of movies) {
         movieComponent.push(<div>
-            <a href={'/movie/' + movie._id}><h1>{movie.movieTitle}</h1></a>
+            <a href={'/movie/movieID/' + movie._id}><h1>{movie.movieTitle}</h1></a>
 
             <h1>Director: {movie.director}</h1>
         </div>)

@@ -4,7 +4,7 @@ const MovieModel = require("./model/movie.model");
 
 const router = express.Router();
 
-router.get('/', function(request, response) {
+router.get('/allMovies', function(request, response) {
 
     return MovieModel.getAllMovies()
         .then(allMovies => {
@@ -15,7 +15,7 @@ router.get('/', function(request, response) {
         })
 })
 
-router.get('/:movieId', function(request, response) {
+router.get('/movieID/:movieId', function(request, response) {
 
     const movieId = request.params.movieId;
 
@@ -28,7 +28,7 @@ router.get('/:movieId', function(request, response) {
         })
 })
 
-router.get('/:genre', auth_middleware, function(request, response) {
+router.get('/genre/:genre', auth_middleware, function(request, response) {
 
     const movieGenre = request.params.genre;
 

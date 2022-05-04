@@ -9,8 +9,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { format } from 'date-fns';
-// import { useAlert } from 'react-alert';
-
 
 export default function MovieEntry(props) {
 
@@ -19,51 +17,50 @@ export default function MovieEntry(props) {
     const [movie, setMovie] = useState();
     const [reviewText, setReviewText] = useState("");
     const [curMovieTitle, setCurMovieTitle] = useState('');
+    const [curMovieID, setCurMovieID] = useState('');
     const [reviewSet, setReviewSet] = useState([]);
-    const [showEdit, setShowEdit] = useState(true);
+    const [showReviewEdit, setShowReviewEdit] = useState(false);
     const [submitText, setSubmitText] = useState("");
+    const [showMovieEdit, setShowMovieEdit] = useState(false);
+    const [newMovieInfo, setNewMovieInfo] = useState( {newMovie: {
+        movieTitle: "",
+        director: "",
+        genre: "",
+        description: "",
+    }});
     const reviewComponent = [];
-    const editFormIds = [];
     const params = useParams();
-    // const alert = useAlert();
 
     useEffect(() => {
         Axios.get('http://localhost:8000/api/movies/movieID/' + params.movieId)
             .then(function(response) {
             setMovie(response.data);
+            setCurMovieID(response.data._id);
             setCurMovieTitle(response.data.movieTitle);
-            console.log(response.data.movieTitle)
             })
     }, []);
 
     useEffect(() => {
-        console.log("movie state changed");
         getReviews();
-    }, [curMovieTitle]);
+    }, []);
 
     const clear = () => {
         setReviewText("");
-      };
-
-    // useEffect(()=> {
-    //     setReviewSet(...reviewComponent);
-    // }, [reviewText]);
+    };
 
     function getReviews() {
-        Axios.get('http://localhost:8000/api/reviews/getByMovie/' + curMovieTitle)
+        Axios.get('http://localhost:8000/api/reviews/getReviewsByMovieID/' + curMovieID)
             .then(function (response) {
                 setReviewSet(response.data);
                 console.log("get");
-                console.log(response.data);
             })
     }
 
     function addNewReview() {
         if (loggedIn) {
-            Axios.post('http://localhost:8000/api/reviews', {reviewText, username, curMovieTitle})
+            Axios.post('http://localhost:8000/api/reviews', {reviewText, username, curMovieID})
                 .then(response => {
                     console.log("Added review");
-                    console.log(response.data);
                     getReviews();
                 })
                 .catch(error => console.log(error));
@@ -77,7 +74,6 @@ export default function MovieEntry(props) {
             Axios.delete('http://localhost:8000/api/reviews/' + e.target.id)
                 .then(response => {
                     console.log("deleted review");
-                    console.log(response.data);
                     getReviews();
                 })
                 .catch(error => console.log(error));
@@ -86,14 +82,26 @@ export default function MovieEntry(props) {
         }
     }
 
+    function editMovie(e) {
+        if (loggedIn) {
+            Axios.put('http://localhost:8000/api/movies/' +  e.target.id , {newMovieInfo})
+                .then(response => {
+                    console.log("updated movie");
+                    navigate('/home/');
+                })
+                .catch(error => console.log(error));
+        } else {
+            console.log("Must be logged in to edit")
+        }
+    }
+
     function editReview(e) {
         if (username === e.target.value) {
             console.log("target update id: " + e.target.id);
             console.log("target update text: " + submitText);
-            Axios.put('http://localhost:8000/api/reviews/' +  e.target.id , {submitText, username, curMovieTitle})
+            Axios.put('http://localhost:8000/api/reviews/' +  e.target.id , {submitText, username, curMovieID})
                 .then(response => {
                     console.log("updated review");
-                    console.log(response.data);
                     setSubmitText('');
                 })
                 .catch(error => console.log(error));
@@ -102,8 +110,30 @@ export default function MovieEntry(props) {
         }
     }
 
-    function enableEditField() {
-        setShowEdit(!showEdit);
+    function enableReviewEdit(e) {
+        if (loggedIn && username !== e.target.value) {
+            alert("Must be owner to edit");
+        } else if (!loggedIn) {
+            alert("Must be logged in to edit");
+        } else {
+            setShowReviewEdit(!showReviewEdit);
+        }
+    }
+
+    function enableMovieEdit(e) {
+        if (!loggedIn) {
+            alert("Must be logged in to edit");
+        } else {
+            setShowMovieEdit(!showMovieEdit);
+        }
+    }
+
+    function handleMovieEditChange(e) {
+        console.log("name: " + e.target.name)
+        console.log("value: " + e.target.value)
+        setNewMovieInfo({
+            [e.target.name]: e.target.value
+        })
     }
 
     if (!movie) {
@@ -111,12 +141,16 @@ export default function MovieEntry(props) {
             Movie loading...
         </div>)
     }
-
-
+    
+    if (reviewSet.length == 0 || reviewSet === undefined) {
+        return (<div>
+            Review loading...
+        </div>)
+    } else {
     for (let review of reviewSet) {
-        
+        console.log("fdsf")
         reviewComponent.push(
-        <Card variant='outlined'>
+        <Card variant='outlined' id={review._id}>
         <CardContent>
         <Typography >
         <div>
@@ -128,25 +162,33 @@ export default function MovieEntry(props) {
             <p>
             <Button 
                 size='large' 
-                onClick={enableEditField} 
+                onClick={enableReviewEdit} 
                 value={review.owner} 
                 id={review._id} 
                 label='edit'
                 >
                 Edit
             </Button>
+            {showReviewEdit &&
             <TextField
                 size='small'
-                disabled={showEdit}
                 onChange={(e) => {
                     setSubmitText(e.target.value)
                 }}
             />
+            }
             </p>
             <p>
-            <Button disabled={showEdit} size='large' onClick={editReview} value={review.owner} id={review._id}>
+            {showReviewEdit &&
+            <Button 
+                size='large' 
+                onClick={editReview} 
+                value={review.owner} 
+                id={review._id}
+                >
                     Submit Edit
             </Button>
+            }
             <Button 
                 size='large' 
                 onClick={deleteReview} 
@@ -163,6 +205,11 @@ export default function MovieEntry(props) {
         </Card>
         )
     }
+}
+
+
+
+
 
 
     return (
@@ -205,6 +252,48 @@ export default function MovieEntry(props) {
             </Card>
             <Typography ><h3>Reviews</h3></Typography>
             {reviewComponent}
+            <Button onClick={enableMovieEdit}>
+                Edit Movie
+            </Button>
+            {showMovieEdit && 
+                <Card>
+                    <TextField
+                        name="titleEditField"
+                        label={"New Movie Title"}
+                        size='small'
+                        onChange={
+                            handleMovieEditChange
+                        }
+                    />
+                    <TextField
+                        name="descriptionEditField"
+                        label={"New Movie Description"}
+                        size='small'
+                        onChange={
+                            handleMovieEditChange
+                        }
+                    />
+                    <TextField
+                        name="directorEditField"
+                        label={"New Movie Director"}
+                        size='small'
+                        onChange={
+                            handleMovieEditChange
+                        }
+                    />
+                    <TextField
+                        name="genreEditField"
+                        label={"New Movie Genre"}
+                        size='small'
+                        onChange={
+                            handleMovieEditChange
+                        }
+                    />
+                    <Button onClick={editMovie}>
+                        Submit Movie Edit
+                    </Button>
+                </Card>
+                }
         </div>     
     )
 }

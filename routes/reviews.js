@@ -4,11 +4,11 @@ const ReviewModel = require("./model/review.model");
 
 const router = express.Router();
 
-router.get('/getByMovie/:movieTitle', function(request, response) {
+router.get('/getReviewsByMovieID/:movieID', function(request, response) {
 
-    const title = request.params.movieTitle;
+    const id = request.params.movieID;
 
-    return ReviewModel.getReviewsByMovie(title)
+    return ReviewModel.getReviewsByMovieID(id)
         .then(reviews => {
             response.status(200).send(reviews)
         })
@@ -48,13 +48,13 @@ router.post('/', function(request, response) {
 
     const reviewText = request.body.reviewText;
     // const reviewId = request.body.reviewId;
-    const reviewMovie = request.body.curMovieTitle;
+    const reviewMovieID = request.body.curMovieID;
     const reviewOwner = request.body.username;
     const reviewCreationDate = request.body.date;
 
     const review = {
         reviewText: reviewText,
-        movieName: reviewMovie,
+        movieID: reviewMovieID,
         owner: reviewOwner,
         creationDate: reviewCreationDate
     }

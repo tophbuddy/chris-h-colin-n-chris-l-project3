@@ -9,7 +9,7 @@ function createReview(review) {
 }
 
 function updateReview(newReview) {
-    const filter = { _id: newReview._id, movieName: newReview.movieName, owner: newReview.owner};
+    const filter = { _id: newReview._id, movieID: newReview.movieID, owner: newReview.owner};
     const update = {reviewText: newReview.reviewText};
     return ReviewModel.findOneAndUpdate(filter, update);  // -------------- will return item pre-update ---------------
 }
@@ -18,9 +18,9 @@ function deleteReview(reviewID) {
     return ReviewModel.deleteOne({ _id: reviewID});
 }
 
-function getReviewsByMovie(movieTitle) {
+function getReviewsByMovieID(movieID) {
     return ReviewModel.find({
-        movieName: movieTitle
+        movieID: movieID
     }).exec();
 }
 
@@ -40,7 +40,7 @@ function getReviewById(id) {
 
 module.exports = {
     createReview,
-    getReviewsByMovie,
+    getReviewsByMovieID,
     getAllReviews,
     getReviewById,
     getReviewsByUsername,

@@ -8,6 +8,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { format } from 'date-fns';
 // import { useAlert } from 'react-alert';
 
 
@@ -108,19 +109,16 @@ export default function MovieEntry(props) {
     for (let review of reviewSet) {
         
         reviewComponent.push(
+        <Card variant='outlined'>
+        <CardContent>
+        <Typography >
         <div>
-            <p>Reviewer: {review.owner}</p>
-            <p>Publish Date: {review.creationDate}</p>
+            <h4>{review.owner}</h4>
+            <p>Published {review.creationDate}</p>
+            <br></br>
             <p>{review.reviewText}</p>
-            <Button 
-                size='large' 
-                onClick={deleteReview} 
-                value={review.owner} 
-                id={review._id} 
-                label='delete'
-                >
-                Delete
-            </Button>
+            <br></br>
+            <p>
             <Button 
                 size='large' 
                 onClick={enableEditField} 
@@ -131,6 +129,7 @@ export default function MovieEntry(props) {
                 Edit
             </Button>
             <TextField
+                size='small'
                 disabled={showEdit}
                 value={submitText}
                 onChange={(e) => {
@@ -138,47 +137,63 @@ export default function MovieEntry(props) {
                     console.log("field: " + submitText);
                 }}
             />
+            </p>
+            <p>
             <Button disabled={showEdit} size='large' onClick={editReview} value={review.owner} id={review._id}>
                     Submit Edit
-                </Button>
+            </Button>
+            <Button 
+                size='large' 
+                onClick={deleteReview} 
+                value={review.owner} 
+                id={review._id} 
+                label='delete'
+                >
+                Delete
+            </Button>
+            </p>
         </div>
+        </Typography>
+        </CardContent>
+        </Card>
         )
     }
 
 
     return (
-        <Card>
-        <CardContent>
-            <Typography >
-                <div>
-                    <h2>
-                        Movie Image will be displayed here
-                    </h2>
-                    <h1>
-                        Movie Title: {movie.movieTitle} 
-                    </h1>
-                    <h2>
-                        Director: {movie.director}
-                    </h2>
-                    <h2>
-                        Release Date: {movie.releaseDate}
-                    </h2>
-                    <h2>
-                        Description: {movie.description}
-                    </h2>
-                    <h3>
-                        Movie Reviews
-                    </h3>
-                    <input value={reviewText} onChange={e => setReviewText(e.target.value)} />
-                    <br/>
-                    <button onClick={addNewReview}>
-                        Submit Review
-                    </button>
-                    <br/>
-                    {reviewComponent}
-                </div>
-        </Typography>
-        </CardContent>
-        </Card>
+        <div>
+            <Card>
+                <CardContent>
+                    <Typography >
+                        <div>
+                        <h1>
+                            {movie.movieTitle} 
+                        </h1>
+                        <h3>
+                            Movie Image will be displayed here
+                        </h3>
+                        <h3>
+                            Director: {movie.director}
+                        </h3>
+                        <h4>
+                            Date Created: {format(new Date(), 'do MMMM Y')}
+                            <div>{movie.releaseDate}</div>
+                        </h4>
+                        <h4>
+                            Description: {movie.description}
+                        </h4>
+                        
+                        <TextField fullWidth={true} margin={'dense'} label={"Review Content"} value={reviewText} onChange={e => setReviewText(e.target.value)} />
+                        <br/>
+                        <Button onClick={addNewReview}>
+                            Submit Review
+                        </Button>
+                        </div>
+                    </Typography>
+                </CardContent>
+            </Card>
+            <Typography ><h3>Reviews</h3></Typography>
+            {reviewComponent}
+        </div>     
     )
 }

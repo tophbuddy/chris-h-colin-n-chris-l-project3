@@ -17,6 +17,7 @@ export default function MovieEntry(props) {
     const [movie, setMovie] = useState();
     const [reviewText, setReviewText] = useState("");
     const [curMovieTitle, setCurMovieTitle] = useState('');
+    const [rerender, setRerender] = useState(false);
     const [curMovieID, setCurMovieID] = useState('');
     const [reviewSet, setReviewSet] = useState([]);
     const [showReviewEdit, setShowReviewEdit] = useState(false);
@@ -42,7 +43,7 @@ export default function MovieEntry(props) {
 
     useEffect(() => {
         getReviews();
-    }, []);
+    }, [movie]);
 
     const clear = () => {
         setReviewText("");
@@ -67,6 +68,15 @@ export default function MovieEntry(props) {
         } else {
             console.log("User must be logged in to submit review");
         }
+    }
+
+    function showReview() {
+            Axios.get('http://localhost:8000/api/reviews/getByUsername/', {username})
+                .then(response => {
+                    console.log("show review");
+                    getReviews();
+                })
+                .catch(error => console.log(error));
     }
 
     function deleteReview(e) {
@@ -142,15 +152,11 @@ export default function MovieEntry(props) {
         </div>)
     }
     
-    if (reviewSet.length == 0 || reviewSet === undefined) {
-        return (<div>
-            Review loading...
-        </div>)
-    } else {
     for (let review of reviewSet) {
-        console.log("fdsf")
+        if (review._id !== undefined) {
+        console.log(review._id)
         reviewComponent.push(
-        <Card variant='outlined' id={review._id}>
+        <Card variant='outlined' id={review._id} >
         <CardContent>
         <Typography >
         <div>
@@ -212,6 +218,10 @@ export default function MovieEntry(props) {
 
 
 
+
+
+
+
     return (
         <div>
             <Card>
@@ -243,6 +253,11 @@ export default function MovieEntry(props) {
                             onChange={e => setReviewText(e.target.value)} 
                             />
                         <br/>
+
+                        <Button onClick={() => {showReview();}}>
+                            Show Review
+                        </Button>
+
                         <Button onClick={() => {addNewReview(); clear();}}>
                             Submit Review
                         </Button>

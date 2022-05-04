@@ -30,9 +30,9 @@ router.get('/getByReviewID/:reviewId', function(request, response) {
         })
 })
 
-router.get('/getByUsername/:username', auth_middleware, function(request, response) {
+router.get('/getByUsername/', function(request, response) {
 
-    const username = request.username;
+    const username = request.body.username;
 
     return ReviewModel.getReviewsByUsername(username)
         .then(allReviews => {

@@ -55,7 +55,7 @@ export default function MovieEntry(props) {
                 .then(response => {
                     console.log("Added review");
                     console.log(response.data);
-                    navigate('/movie/movieID/' + movie.movieId);
+                    navigate('/movie/movieID/' + movie._id);
                 })
                 .catch(error => console.log(error));
         } else {

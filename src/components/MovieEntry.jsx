@@ -70,7 +70,6 @@ export default function MovieEntry(props) {
                 .then(response => {
                     console.log("deleted review");
                     console.log(response.data);
-                    navigate('/home');
                 })
                 .catch(error => console.log(error));
         } else {
@@ -87,7 +86,7 @@ export default function MovieEntry(props) {
                     console.log("updated review");
                     console.log(response.data);
                     setSubmitText('');
-                    // navigate('/home');
+                    navigate('/movie/movieID/' + movie._id);
                 })
                 .catch(error => console.log(error));
         } else {
@@ -131,10 +130,8 @@ export default function MovieEntry(props) {
             <TextField
                 size='small'
                 disabled={showEdit}
-                value={submitText}
                 onChange={(e) => {
                     setSubmitText(e.target.value)
-                    console.log("field: " + submitText);
                 }}
             />
             </p>

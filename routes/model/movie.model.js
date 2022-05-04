@@ -8,6 +8,16 @@ function createMovie(movie) {
     return MovieModel.create(movie);
 }
 
+function updateMovie(newMovie) {
+    const filter = { _id: newMovie._id, movieTitle: newMovie.movieTitle, director: newMovie.director};
+    const update = {description: newReview.reviewText, releaseDate: newMovie.releaseDate};
+    return MovieModel.findOneAndUpdate(filter, update);  // -------------- will return item pre-update ---------------
+}
+
+function deleteMovie(movieID) {
+    return MovieModel.deleteOne({ _id: movieID});
+}
+
 function getMoviesByDirector(director) {
     return MovieModel.find({
         director: director
@@ -34,4 +44,6 @@ module.exports = {
     getAllMovies,
     getMovieById,
     getMoviesByDirector,
+    updateMovie,
+    deleteMovie
 }

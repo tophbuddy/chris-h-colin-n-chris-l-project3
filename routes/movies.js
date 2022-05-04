@@ -72,4 +72,42 @@ router.post('/', function(request, response) {
         })
 });
 
+router.put('/:movieID', function(request, response) {
+    
+    const newMovieDescription = request.body.newMovieDescription;
+    const movieID = request.params.movieID;
+    const movieTitle = request.body.curMovieTitle;
+    const movieDirector = request.body.director;
+    const movieCreationDate = request.body.date;
+
+    const updatedMovie = {
+        _id : movieID,
+        movieTitle: movieTitle,
+        director: movieDirector,
+        description: newMovieDescription,
+        releaseDate: movieCreationDate
+    }
+
+    return MovieModel.updateMovie(updatedMovie)
+        .then(dbResponse => {
+            response.status(200).send(dbResponse);
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
+})
+
+router.delete('/:movieID', function(request, response) {
+    
+    const movieID = request.params.movieID;
+
+    return MovieModel.deleteMovie(movieID)
+        .then(dbResponse => {
+            response.status(200).send(dbResponse);
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
+})
+
 module.exports = router;

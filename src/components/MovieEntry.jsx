@@ -17,7 +17,7 @@ export default function MovieEntry(props) {
     const navigate = useNavigate();
     const {username, setUsername, loggedIn, setLoggedIn} = useContext(Context);
     const [movie, setMovie] = useState();
-    const [reviewText, setReviewText] = useState('');
+    const [reviewText, setReviewText] = useState("");
     const [curMovieTitle, setCurMovieTitle] = useState('');
     const [reviewSet, setReviewSet] = useState([]);
     const [showEdit, setShowEdit] = useState(true);
@@ -39,7 +39,15 @@ export default function MovieEntry(props) {
     useEffect(() => {
         console.log("movie state changed");
         getReviews();
-    }, [curMovieTitle])
+    }, [curMovieTitle]);
+
+    const clear = () => {
+        setReviewText("");
+      };
+
+    // useEffect(()=> {
+    //     setReviewSet(...reviewComponent);
+    // }, [reviewText]);
 
     function getReviews() {
         Axios.get('http://localhost:8000/api/reviews/getByMovie/' + curMovieTitle)
@@ -56,7 +64,7 @@ export default function MovieEntry(props) {
                 .then(response => {
                     console.log("Added review");
                     console.log(response.data);
-                    navigate('/movie/movieID/' + movie._id);
+                    getReviews();
                 })
                 .catch(error => console.log(error));
         } else {
@@ -70,6 +78,7 @@ export default function MovieEntry(props) {
                 .then(response => {
                     console.log("deleted review");
                     console.log(response.data);
+                    getReviews();
                 })
                 .catch(error => console.log(error));
         } else {
@@ -86,7 +95,6 @@ export default function MovieEntry(props) {
                     console.log("updated review");
                     console.log(response.data);
                     setSubmitText('');
-                    navigate('/movie/movieID/' + movie._id);
                 })
                 .catch(error => console.log(error));
         } else {
@@ -180,9 +188,15 @@ export default function MovieEntry(props) {
                             Description: {movie.description}
                         </h4>
                         
-                        <TextField fullWidth={true} margin={'dense'} label={"Review Content"} value={reviewText} onChange={e => setReviewText(e.target.value)} />
+                        <TextField 
+                            fullWidth={true} 
+                            margin={'dense'} 
+                            label={"Review Content"} 
+                            value={reviewText} 
+                            onChange={e => setReviewText(e.target.value)} 
+                            />
                         <br/>
-                        <Button onClick={addNewReview}>
+                        <Button onClick={() => {addNewReview(); clear();}}>
                             Submit Review
                         </Button>
                         </div>

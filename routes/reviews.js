@@ -68,17 +68,19 @@ router.post('/', function(request, response) {
         })
 });
 
-router.put('/updateReview/:reviewID', auth_middleware, function(request, response) {
+router.put('/:reviewID', function(request, response) {
     
-    const reviewText = request.body.reviewText;
+    const newReviewText = request.body.submitText;
+    const reviewID = request.params.reviewID;
     const reviewMovie = request.body.curMovieTitle;
     const reviewOwner = request.body.username;
     const reviewCreationDate = request.body.date;
 
     const updatedReview = {
-        reviewText: reviewText,
-        movieName: reviewMovie,
+        _id : reviewID,
+        reviewText: newReviewText,
         owner: reviewOwner,
+        movieName: reviewMovie,
         creationDate: reviewCreationDate
     }
 

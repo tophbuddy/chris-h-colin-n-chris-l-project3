@@ -7,6 +7,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 // import { useAlert } from 'react-alert';
 
 
@@ -18,8 +19,10 @@ export default function MovieEntry(props) {
     const [reviewText, setReviewText] = useState('');
     const [curMovieTitle, setCurMovieTitle] = useState('');
     const [reviewSet, setReviewSet] = useState([]);
-    const [showEdit, setShowEdit] = useState(false);
+    const [showEdit, setShowEdit] = useState(true);
+    const [submitText, setSubmitText] = useState("");
     const reviewComponent = [];
+    const editFormIds = [];
     const params = useParams();
     // const alert = useAlert();
 
@@ -75,18 +78,28 @@ export default function MovieEntry(props) {
     }
 
     function editReview(e) {
-        
-        Axios.put('http://localhost:8000/api/reviews/' + e.target.id)
-            .then(response => {
-                console.log("deleted review");
-                console.log(response.data);
-                navigate('/home');
-            })
-            .catch(error => console.log(error));
+        if (username === e.target.value) {
+            console.log("target update id: " + e.target.id);
+            console.log("target update text: " + submitText);
+            Axios.put('http://localhost:8000/api/reviews/' +  e.target.id , {submitText, username, curMovieTitle})
+                .then(response => {
+                    console.log("updated review");
+                    console.log(response.data);
+                    setSubmitText('');
+                    // navigate('/home');
+                })
+                .catch(error => console.log(error));
+        } else {
+            console.log("You are not the owner of this review")
+        }
     }
 
-    function showEditField() {
-        setShowEdit(true);
+    function enableEditField() {
+        setShowEdit(!showEdit);
+    }
+
+    const onFocus = () => {
+        setSubmitText()
     }
 
     if (!movie) {
@@ -97,24 +110,42 @@ export default function MovieEntry(props) {
 
 
     for (let review of reviewSet) {
+        
         reviewComponent.push(
         <div>
             <p>Reviewer: {review.owner}</p>
             <p>Publish Date: {review.creationDate}</p>
             <p>{review.reviewText}</p>
-            <Button size='large' onClick={deleteReview} value={review.owner} id={review._id}>
+            <Button 
+                size='large' 
+                onClick={deleteReview} 
+                value={review.owner} 
+                id={review._id} 
+                label='delete'
+                >
                 Delete
             </Button>
-            <Button size='large' onClick={editReview} value={review.owner} id={review._id}>
+            <Button 
+                size='large' 
+                onClick={enableEditField} 
+                value={review.owner} 
+                id={review._id} 
+                label='edit'
+                >
                 Edit
             </Button>
-            <Button size='large' onClick={editReview} value={review.owner} id={review._id}>
-                Edit
-            </Button>
-            {/* <div>
-                <input type="submit" value={} />
-            { showEdit ? : null}
-            </div> */}
+            <TextField
+                onFocus={onFocus}
+                disabled={showEdit}
+                value={submitText}
+                onChange={(e) => {
+                    setSubmitText(e.target.value)
+                    console.log("field: " + submitText);
+                }}
+            />
+            <Button disabled={showEdit} size='large' onClick={editReview} value={review.owner} id={review._id}>
+                    Submit Edit
+                </Button>
         </div>
         )
     }

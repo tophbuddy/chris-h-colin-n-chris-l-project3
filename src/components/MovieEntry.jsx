@@ -18,6 +18,7 @@ export default function MovieEntry(props) {
     const [reviewText, setReviewText] = useState('');
     const [curMovieTitle, setCurMovieTitle] = useState('');
     const [reviewSet, setReviewSet] = useState([]);
+    const [showEdit, setShowEdit] = useState(false);
     const reviewComponent = [];
     const params = useParams();
     // const alert = useAlert();
@@ -84,6 +85,10 @@ export default function MovieEntry(props) {
             .catch(error => console.log(error));
     }
 
+    function showEditField() {
+        setShowEdit(true);
+    }
+
     if (!movie) {
         return (<div>
             Movie loading...
@@ -103,6 +108,13 @@ export default function MovieEntry(props) {
             <Button size='large' onClick={editReview} value={review.owner} id={review._id}>
                 Edit
             </Button>
+            <Button size='large' onClick={editReview} value={review.owner} id={review._id}>
+                Edit
+            </Button>
+            {/* <div>
+                <input type="submit" value={} />
+            { showEdit ? : null}
+            </div> */}
         </div>
         )
     }

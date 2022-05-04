@@ -12,6 +12,11 @@ p {
     margin: auto;
 }
 
-a {
+.movieTitle {
     text-decoration: none;
+    color: rgb(0, 47, 128);
+}
+
+.movieTitle:hover {
+    text-decoration: underline;
 }

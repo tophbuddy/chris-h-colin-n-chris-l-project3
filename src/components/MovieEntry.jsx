@@ -98,10 +98,6 @@ export default function MovieEntry(props) {
         setShowEdit(!showEdit);
     }
 
-    const onFocus = () => {
-        setSubmitText()
-    }
-
     if (!movie) {
         return (<div>
             Movie loading...
@@ -135,7 +131,6 @@ export default function MovieEntry(props) {
                 Edit
             </Button>
             <TextField
-                onFocus={onFocus}
                 disabled={showEdit}
                 value={submitText}
                 onChange={(e) => {

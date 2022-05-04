@@ -9,13 +9,13 @@ function createReview(review) {
 }
 
 function updateReview(newReview) {
-    const filter = {owner: newReview.owner, movieName: newReview.movieName};
+    const filter = {owner: newReview.owner, movieName: newReview.movieName, _id: review._id};
     const update = {reviewText: newReview.reviewText, creationDate: newReview.creationDate};
     return ReviewModel.findOneAndUpdate(filter, update);  // -------------- will return item pre-update ---------------
 }
 
-function deleteReview(review) {
-    return ReviewModel.deleteOne({ owner: review.owner, movieName: review.movieName });
+function deleteReview(reviewID) {
+    return ReviewModel.deleteOne({ _id: reviewID});
 }
 
 function getReviewsByMovie(movieTitle) {

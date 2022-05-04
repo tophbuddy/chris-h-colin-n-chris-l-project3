@@ -44,7 +44,7 @@ router.get('/getByUsername/:username', auth_middleware, function(request, respon
 })
 
 
-router.post('/', auth_middleware, function(request, response) {
+router.post('/', function(request, response) {
 
     const reviewText = request.body.reviewText;
     // const reviewId = request.body.reviewId;
@@ -67,5 +67,41 @@ router.post('/', auth_middleware, function(request, response) {
             response.status(400).send(error)
         })
 });
+
+router.put('/updateReview/:reviewID', auth_middleware, function(request, response) {
+    
+    const reviewText = request.body.reviewText;
+    const reviewMovie = request.body.curMovieTitle;
+    const reviewOwner = request.body.username;
+    const reviewCreationDate = request.body.date;
+
+    const updatedReview = {
+        reviewText: reviewText,
+        movieName: reviewMovie,
+        owner: reviewOwner,
+        creationDate: reviewCreationDate
+    }
+
+    return ReviewModel.updateReview(updatedReview)
+        .then(dbResponse => {
+            response.status(200).send(dbResponse);
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
+})
+
+router.delete('/:reviewID', function(request, response) {
+    
+    const reviewID = request.params.reviewID;
+
+    return ReviewModel.deleteReview(reviewID)
+        .then(dbResponse => {
+            response.status(200).send(dbResponse);
+        })
+        .catch(error => {
+            response.status(400).send(error)
+        })
+})
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const express = require('express');
-
 const UserModel = require('./model/user.model');
 const jwt = require('jsonwebtoken');
 const auth_middleware = require('./middleware/auth_middleware');
@@ -12,10 +11,7 @@ router.post('/authenticate', function (request, response) {
 
     return UserModel.getUserByUserName(usernameGiven)
         .then(user => {
-            console.log(user.password);
-            console.log(passwordGiven);
             if (bcrypt.compareSync(passwordGiven, user.password)) {
-            //if (user.password === passwordGiven) {
                 const payload = {
                     username: usernameGiven,
                 };
@@ -33,6 +29,7 @@ router.post('/authenticate', function (request, response) {
         })
 })
 
+
 router.post('/logout', auth_middleware, function (request, response) {
     const token = jwt.sign({}, "SUPER_SECRET", {
         expiresIn: '0d'
@@ -41,9 +38,11 @@ router.post('/logout', auth_middleware, function (request, response) {
         .status(200).send();
 })
 
+
 router.get('/isLoggedIn', auth_middleware, function (request, response) {
     return response.status(200).send({username: request.username});
 })
+
 
 router.get('/:username', function (request, response) {
 
@@ -58,8 +57,8 @@ router.get('/:username', function (request, response) {
         })
 })
 
+
 router.post('/', function (request, response) {
-    console.log(request.body);
     let {usernameGiven, passwordGiven} = request.body;
 
     if (!usernameGiven || !passwordGiven) {

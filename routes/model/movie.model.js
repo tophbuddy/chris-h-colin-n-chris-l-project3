@@ -14,7 +14,7 @@ function updateMovie(newMovie) {
         movieTitle: newMovie.movieTitle, 
         director: newMovie.director, 
         genre: newMovie.genre};
-    return MovieModel.findOneAndUpdate(filter, update);  // -------------- will return item pre-update ---------------
+    return MovieModel.findOneAndUpdate(filter, update);
 }
 
 function deleteMovie(movieID) {

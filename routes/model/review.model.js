@@ -11,7 +11,7 @@ function createReview(review) {
 function updateReview(newReview) {
     const filter = { _id: newReview._id, movieID: newReview.movieID, owner: newReview.owner};
     const update = {reviewText: newReview.reviewText};
-    return ReviewModel.findOneAndUpdate(filter, update);  // -------------- will return item pre-update ---------------
+    return ReviewModel.findOneAndUpdate(filter, update);
 }
 
 function deleteReview(reviewID) {

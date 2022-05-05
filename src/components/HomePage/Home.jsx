@@ -1,14 +1,11 @@
 import React, {useEffect, useState, createContext} from 'react';
 import './Home.css';
 import Axios from 'axios';
-import {Route, Routes} from "react-router-dom";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
-
-// export const Context = createContext();
 
 export default function Home() {
 
@@ -35,7 +32,6 @@ export default function Home() {
             </Card>)
 
     }
-
 
     return (
         <div>

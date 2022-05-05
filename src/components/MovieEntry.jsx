@@ -80,7 +80,7 @@ export default function MovieEntry(props) {
     function deleteReview(e) {
         if (!loggedIn) {
             alert("Must be logged in to edit");
-        } else if (!username === e.target.value) {
+        } else if (username !== e.target.value) {
             alert("You must be the owner to edit");
         } else {
             console.log("You are not the owner of this review")
@@ -111,7 +111,7 @@ export default function MovieEntry(props) {
     function editReview(e) {
         if (!loggedIn) {
             alert("Must be logged in to edit");
-        } else if (!username === e.target.value) {
+        } else if (username !== e.target.value) {
             alert("You must be the owner to edit");
         } else {
             console.log("target update id: " + e.target.id);

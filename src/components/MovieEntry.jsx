@@ -31,7 +31,7 @@ export default function MovieEntry(props) {
     const params = useParams();
 
     useEffect(() => {
-        Axios.get('http://localhost:8000/api/movies/movieID/' + params.movieId)
+        Axios.get('/api/movies/movieID/' + params.movieId)
             .then(function(response) {
             setMovie(response.data);
             setCurMovieID(response.data._id);
@@ -48,7 +48,7 @@ export default function MovieEntry(props) {
     };
 
     function getReviews() {
-        Axios.get('http://localhost:8000/api/reviews/getReviewsByMovieID/' + curMovieID)
+        Axios.get('/api/reviews/getReviewsByMovieID/' + curMovieID)
             .then(function (response) {
                 setReviewSet(response.data);
                 console.log("get");
@@ -57,7 +57,7 @@ export default function MovieEntry(props) {
 
     function addNewReview() {
         if (loggedIn) {
-            Axios.post('http://localhost:8000/api/reviews', {reviewText, username, curMovieID})
+            Axios.post('/api/reviews', {reviewText, username, curMovieID})
                 .then(response => {
                     console.log("Added review");
                     getReviews();
@@ -69,7 +69,7 @@ export default function MovieEntry(props) {
     }
 
     function showReview() {
-            Axios.get('http://localhost:8000/api/reviews/getByUsername/', {username})
+            Axios.get('/api/reviews/getByUsername/', {username})
                 .then(response => {
                     console.log("show review");
                     getReviews();
@@ -96,7 +96,7 @@ export default function MovieEntry(props) {
     function editMovie(e) {
         if (loggedIn) {
             console.log(e.target.value.movieTitle);
-            Axios.put('http://localhost:8000/api/movies/' +  curMovieID , {newMovieInfo})
+            Axios.put('/api/movies/' +  curMovieID , {newMovieInfo})
                 .then(response => {
                     console.log("updated movie");
                     console.log(response.data);

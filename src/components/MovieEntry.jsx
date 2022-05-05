@@ -83,8 +83,7 @@ export default function MovieEntry(props) {
         } else if (username !== e.target.value) {
             alert("You must be the owner to edit");
         } else {
-            console.log("You are not the owner of this review")
-            Axios.delete('http://localhost:8000/api/reviews/' + e.target.id)
+            Axios.delete('/api/reviews/' + e.target.id)
                 .then(response => {
                     console.log("deleted review");
                     getReviews();
@@ -116,7 +115,7 @@ export default function MovieEntry(props) {
         } else {
             console.log("target update id: " + e.target.id);
             console.log("target update text: " + submitText);
-            Axios.put('http://localhost:8000/api/reviews/' +  e.target.id , {submitText, username, curMovieID})
+            Axios.put('/api/reviews/' +  e.target.id , {submitText, username, curMovieID})
                 .then(response => {
                     console.log("updated review");
                     setSubmitText('');

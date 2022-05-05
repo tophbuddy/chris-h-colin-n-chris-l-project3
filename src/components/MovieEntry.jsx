@@ -8,7 +8,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { format } from 'date-fns';
 
 export default function MovieEntry(props) {
 
@@ -161,7 +160,7 @@ export default function MovieEntry(props) {
         <Typography >
         <div>
             <h4>{review.owner}</h4>
-            <p>Published {review.creationDate}</p>
+            <p>Published {String(review.creationDate).slice(0, 10)}</p>
             <br></br>
             <p>{review.reviewText}</p>
             <br></br>
@@ -238,8 +237,7 @@ export default function MovieEntry(props) {
                             Director: {movie.director}
                         </h3>
                         <h4>
-                            Date Created: {format(new Date(), 'do MMMM Y')}
-                            <div>{movie.releaseDate}</div>
+                            Date Created: {String(movie.releaseDate).slice(0, 10)}
                         </h4>
                         <h4>
                             Description: {movie.description}
@@ -272,7 +270,9 @@ export default function MovieEntry(props) {
             </Button>
             {showMovieEdit && 
                 <Card>
+                    <div>
                     <TextField
+                        margin={'dense'}
                         name="titleEditField"
                         label={"New Movie Title"}
                         size='small'
@@ -280,7 +280,10 @@ export default function MovieEntry(props) {
                             handleMovieEditChange
                         }
                     />
+                    </div>
+                    <div>
                     <TextField
+                        margin={'dense'}
                         name="descriptionEditField"
                         label={"New Movie Description"}
                         size='small'
@@ -288,7 +291,10 @@ export default function MovieEntry(props) {
                             handleMovieEditChange
                         }
                     />
+                    </div>
+                    <div>
                     <TextField
+                        margin={'dense'}
                         name="directorEditField"
                         label={"New Movie Director"}
                         size='small'
@@ -296,7 +302,10 @@ export default function MovieEntry(props) {
                             handleMovieEditChange
                         }
                     />
+                    </div>
+                    <div>
                     <TextField
+                        margin={'dense'}
                         name="genreEditField"
                         label={"New Movie Genre"}
                         size='small'
@@ -304,9 +313,12 @@ export default function MovieEntry(props) {
                             handleMovieEditChange
                         }
                     />
+                    </div>
+                    <div>
                     <Button onClick={editMovie}>
                         Submit Movie Edit
                     </Button>
+                    </div>
                 </Card>
                 }
         </div>     

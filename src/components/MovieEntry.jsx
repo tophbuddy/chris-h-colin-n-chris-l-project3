@@ -113,8 +113,6 @@ export default function MovieEntry(props) {
         } else if (username !== e.target.value) {
             alert("You must be the owner to edit");
         } else {
-            console.log("target update id: " + e.target.id);
-            console.log("target update text: " + submitText);
             Axios.put('/api/reviews/' +  e.target.id , {submitText, username, curMovieID})
                 .then(response => {
                     console.log("updated review");
@@ -143,8 +141,6 @@ export default function MovieEntry(props) {
     }
 
     function handleMovieEditChange(e) {
-        console.log("name: " + e.target.name)
-        console.log("value: " + e.target.value)
         setNewMovieInfo({
             [e.target.name]: e.target.value
         })

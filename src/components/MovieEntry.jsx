@@ -16,7 +16,6 @@ export default function MovieEntry(props) {
     const [movie, setMovie] = useState();
     const [reviewText, setReviewText] = useState("");
     const [curMovieTitle, setCurMovieTitle] = useState('');
-    const [rerender, setRerender] = useState(false);
     const [curMovieID, setCurMovieID] = useState('');
     const [reviewSet, setReviewSet] = useState([]);
     const [showReviewEdit, setShowReviewEdit] = useState(false);
@@ -79,23 +78,28 @@ export default function MovieEntry(props) {
     }
 
     function deleteReview(e) {
-        if (username === e.target.value) {
+        if (!loggedIn) {
+            alert("Must be logged in to edit");
+        } else if (!username === e.target.value) {
+            alert("You must be the owner to edit");
+        } else {
+            console.log("You are not the owner of this review")
             Axios.delete('http://localhost:8000/api/reviews/' + e.target.id)
                 .then(response => {
                     console.log("deleted review");
                     getReviews();
                 })
                 .catch(error => console.log(error));
-        } else {
-            console.log("You are not the owner of this review")
         }
     }
 
     function editMovie(e) {
         if (loggedIn) {
-            Axios.put('http://localhost:8000/api/movies/' +  e.target.id , {newMovieInfo})
+            console.log(e.target.value.movieTitle);
+            Axios.put('http://localhost:8000/api/movies/' +  curMovieID , {newMovieInfo})
                 .then(response => {
                     console.log("updated movie");
+                    console.log(response.data);
                     navigate('/home/');
                 })
                 .catch(error => console.log(error));
@@ -105,7 +109,11 @@ export default function MovieEntry(props) {
     }
 
     function editReview(e) {
-        if (username === e.target.value) {
+        if (!loggedIn) {
+            alert("Must be logged in to edit");
+        } else if (!username === e.target.value) {
+            alert("You must be the owner to edit");
+        } else {
             console.log("target update id: " + e.target.id);
             console.log("target update text: " + submitText);
             Axios.put('http://localhost:8000/api/reviews/' +  e.target.id , {submitText, username, curMovieID})
@@ -114,8 +122,6 @@ export default function MovieEntry(props) {
                     setSubmitText('');
                 })
                 .catch(error => console.log(error));
-        } else {
-            console.log("You are not the owner of this review")
         }
     }
 
@@ -273,7 +279,7 @@ export default function MovieEntry(props) {
                     <div>
                     <TextField
                         margin={'dense'}
-                        name="titleEditField"
+                        name="movieTitle"
                         label={"New Movie Title"}
                         size='small'
                         onChange={
@@ -284,7 +290,7 @@ export default function MovieEntry(props) {
                     <div>
                     <TextField
                         margin={'dense'}
-                        name="descriptionEditField"
+                        name="description"
                         label={"New Movie Description"}
                         size='small'
                         onChange={
@@ -295,7 +301,7 @@ export default function MovieEntry(props) {
                     <div>
                     <TextField
                         margin={'dense'}
-                        name="directorEditField"
+                        name="director"
                         label={"New Movie Director"}
                         size='small'
                         onChange={
@@ -306,7 +312,7 @@ export default function MovieEntry(props) {
                     <div>
                     <TextField
                         margin={'dense'}
-                        name="genreEditField"
+                        name="genre"
                         label={"New Movie Genre"}
                         size='small'
                         onChange={

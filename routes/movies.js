@@ -74,15 +74,17 @@ router.post('/', function(request, response) {
 
 router.put('/:movieID', function(request, response) {
     
-    const newMovieDescription = request.body.newMovieDescription;
+    const newMovieDescription = request.body.description;
     const movieID = request.params.movieID;
-    const movieTitle = request.body.curMovieTitle;
+    const movieTitle = request.body.movieTitle;
     const movieDirector = request.body.director;
+    const movieGenre = request.body.genre;
     const movieCreationDate = request.body.date;
 
     const updatedMovie = {
         _id : movieID,
         movieTitle: movieTitle,
+        movieGenre: movieGenre,
         director: movieDirector,
         description: newMovieDescription,
         releaseDate: movieCreationDate

@@ -9,8 +9,11 @@ function createMovie(movie) {
 }
 
 function updateMovie(newMovie) {
-    const filter = { _id: newMovie._id, movieTitle: newMovie.movieTitle, director: newMovie.director};
-    const update = {description: newReview.reviewText, releaseDate: newMovie.releaseDate};
+    const filter = { _id: newMovie._id};
+    const update = {description: newMovie.description, 
+        movieTitle: newMovie.movieTitle, 
+        director: newMovie.director, 
+        genre: newMovie.genre};
     return MovieModel.findOneAndUpdate(filter, update);  // -------------- will return item pre-update ---------------
 }
 

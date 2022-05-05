@@ -117,7 +117,7 @@ export default function MovieEntry(props) {
                 .then(response => {
                     console.log("updated review");
                     setSubmitText("");
-                    navigate('/movie/movieID/' + curMovieID);
+                    navigate('/home/');
                 })
                 .catch(error => console.log(error));
         }

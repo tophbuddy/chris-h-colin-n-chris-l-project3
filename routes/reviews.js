@@ -72,15 +72,15 @@ router.put('/:reviewID', function(request, response) {
     
     const newReviewText = request.body.submitText;
     const reviewID = request.params.reviewID;
-    const reviewMovie = request.body.curMovieTitle;
     const reviewOwner = request.body.username;
+    const reviewMovieID = request.body.curMovieID;
     const reviewCreationDate = request.body.date;
 
     const updatedReview = {
         _id : reviewID,
         reviewText: newReviewText,
         owner: reviewOwner,
-        movieName: reviewMovie,
+        movieID: reviewMovieID,
         creationDate: reviewCreationDate
     }
 

@@ -116,7 +116,8 @@ export default function MovieEntry(props) {
             Axios.put('/api/reviews/' +  e.target.id , {submitText, username, curMovieID})
                 .then(response => {
                     console.log("updated review");
-                    setSubmitText('');
+                    setSubmitText("");
+                    navigate('/movie/movieID/' + curMovieID);
                 })
                 .catch(error => console.log(error));
         }
